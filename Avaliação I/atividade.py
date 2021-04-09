@@ -16,7 +16,6 @@ for i in range(entrada*2):
     print("digite a letra do vertice:")
     x = input()
     lista.append(x)
-<<<<<<< HEAD
     if (i+1) % 2 == 0:
         #O usuário poderá criar grafos direcionados e não-direcionados
         print("Você quer criar grafos:")
@@ -26,17 +25,15 @@ for i in range(entrada*2):
         #O usuário poderá criar grafos valorados e nã)
         lista.append(entrada3)
 
-=======
-    if entrada3 == 3
+    if entrada3 == 3:
         print("digite o valor da aresta (?):")
         valor = int(input())  
         lista.append(valor)
         
->>>>>>> 017d311c5fba4d77bd988273d98ec6b9a3ffe9b5
     print(lista)
 
 #ideia de como printar a matriz com lista
-if(entrada2 == 1)
+if entrada2 == 1:
     direc = "--"
 else:
     direc = "-->"
