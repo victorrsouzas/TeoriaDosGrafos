@@ -1,15 +1,22 @@
 print("Teoria dos Grafos 2021.1 - Avaliação I")
 
+lista = []
+
 #O usuário deverá ser capaz de interagir com o sistema para criar um grafo.
 entrada = int(input("Quantos pares de vertice você quer criar?: "))
-
-lista = []
+especif = print("Você quer criar grafos:")
+#O usuário poderá criar grafos direcionados e não-direcionados
+print("1-direcionados ou 2-não direcionados")
+entrada2 = int(input())
+#O usuário poderá criar grafos valorados e não-valorados
+print("3-valorados ou 4-não valorados")
+entrada3 = int(input())
 
 for i in range(entrada*2):
     print("digite a letra do vertice:")
     x = input()
-    print("aqui e o indice",(i+1))
     lista.append(x)
+<<<<<<< HEAD
     if (i+1) % 2 == 0:
         #O usuário poderá criar grafos direcionados e não-direcionados
         print("Você quer criar grafos:")
@@ -19,16 +26,23 @@ for i in range(entrada*2):
         #O usuário poderá criar grafos valorados e nã)
         lista.append(entrada3)
 
+=======
+    if entrada3 == 3
+        print("digite o valor da aresta (?):")
+        valor = int(input())  
+        lista.append(valor)
+        
+>>>>>>> 017d311c5fba4d77bd988273d98ec6b9a3ffe9b5
     print(lista)
 
+#ideia de como printar a matriz com lista
+if(entrada2 == 1)
+    direc = "--"
+else:
+    direc = "-->"
+#lista[j] = vertice 1, lista[j+2] = vertice 2, lista[j+3] = valor
+#fazer o for ir de 3 em 3 para ir passando os pares de vertices
+for j in range(len(lista)):
+    print(lista[j], direc, lista[j+1], lista[j+2])
+    j+=3
 
-# if entrada2 == 1 and entrada3 == 3:
-#     print("1")
-# elif entrada2 == 1 and entrada3 == 4:
-#     print("2")
-# elif entrada2 == 2 and entrada3 == 3:
-#     print("3")
-# elif entrada2 == 2 and entrada3 == 4:
-#     print("4")
-# else:
-#     print("Você digitou a opção errada")
