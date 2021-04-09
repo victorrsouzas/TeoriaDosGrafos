@@ -16,9 +16,7 @@ for i in range(entrada*2):
         print("1-direcionados ou 2-não direcionados")
         entrada2 = int(input())
         lista.append(entrada2)
-        #O usuário poderá criar grafos valorados e não-valorados
-        print("3-valorados ou 4-não valorados")
-        entrada3 = int(input())
+        #O usuário poderá criar grafos valorados e nã)
         lista.append(entrada3)
 
     print(lista)
