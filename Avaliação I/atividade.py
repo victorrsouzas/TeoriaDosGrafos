@@ -16,14 +16,6 @@ for i in range(entrada*2):
     print("digite a letra do vertice:")
     x = input()
     lista.append(x)
-    if (i+1) % 2 == 0:
-        #O usuário poderá criar grafos direcionados e não-direcionados
-        print("Você quer criar grafos:")
-        print("1-direcionados ou 2-não direcionados")
-        entrada2 = int(input())
-        lista.append(entrada2)
-        #O usuário poderá criar grafos valorados e nã)
-        lista.append(entrada3)
 
     if entrada3 == 3:
         print("digite o valor da aresta (?):")
