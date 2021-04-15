@@ -3,6 +3,60 @@ import time
 c = 0
 d = 1
 
+ListaVertices = {}
+
+
+def imprimirGrafo(grafo, modo):
+
+    if modo == 1:
+        print("---------------------------------------------------")
+        print("\t\t\tVisualização")
+        for j in range(0, len(grafo), 3):
+
+            print(f"""
+                              ({grafo[j+2]})
+                            {grafo[j]} ----> {grafo[j+1]}
+                            """)
+            j += 3
+        print("\n")
+        print("---------------------------------------------------")
+        print("\t\t\tLista de Arestas")
+        for j in range(0, len(grafo), 3):
+
+            print(f"""Nome da aresta | Vértice de Saída | Vértice de Chegada
+        ({grafo[j+2]})               {grafo[j]}          {grafo[j+1]}
+            """)
+            j += 3
+
+        print("---------------------------------------------------")
+        print("\n")
+
+    elif modo == 2:
+        for j in range(0, len(grafo), 2):
+            print(f"""
+
+                            {grafo[j]} ----> {grafo[j+1]}
+                            """)
+            j += 2
+
+    elif modo == 4:
+        for j in range(0, len(grafo), 3):
+
+            print(f"""
+                              ({grafo[j+2]})
+                            {grafo[j]} ---- {grafo[j+1]}
+                            """)
+            j += 3
+
+    elif modo == 5:
+        for j in range(0, len(grafo), 2):
+            print(f"""
+
+                            {grafo[j]} ---- {grafo[j+1]}
+                            """)
+            j += 2
+
+
 def grafos():
 
     while d == 1:
@@ -13,41 +67,172 @@ def grafos():
         (2) Não Direcionado
         (3) Sair
         """)
-        c = int(input("Opção: "))
-        if c == 1:
-            print("""
-        (1) Valorado
-        (2) Não Valorado
-        (3) Sair
-            """)
-            direcionado = int(input("O seu grafo direcionado vai ser: "))
-            if direcionado == 1:
-                lista = []
-                lista2 = []
-                try:
-                    entrada = int(input("Quantos pares de vertice você quer criar?: "))
-                    for i in range(entrada*2):
-                        print("digite a letra do vertice:")
-                        x = input()
-                        lista.append(x)
-                        lista2.append(x)
+        try:
+            c = int(input("Opção: "))
+            if c == 1:
+                print("""
+            (1) Valorado
+            (2) Não Valorado
+            (3) Sair
+                """)
+                direcionado = int(input("O seu grafo direcionado vai ser:"))
+                if direcionado == 1:
+                    lista = []
+                    lista2 = []
+                    vertices = {}
+                    try:
+                        entrada = int(
+                            input("Quantos pares de vertice você quer criar:"))
+                        for i in range(entrada*2):
+                            print("digite a letra do vertice:")
+                            x = input()
+                            lista.append(x)
+                            lista2.append(x)
 
-                        if (i+1) % 2 == 0:
-                            print("digite o valor da aresta (?):")
-                            valor = int(input())
-                            lista.append(valor)
+                            if (i+1) % 2 == 0:
+                                print("Digite o valor da aresta:")
+                                valor = int(input())
+                                lista.append(valor)
+                                for j in range(0, len(lista), 3):
+                                    y = lista[j]
+                                    z = lista[j+1]
+                                    # vertices = dict({y: z})
+                                    # ListaVertices.update(vertices)
+                                    j += 3
 
-                        print(lista)
-                    
-                    for j in range(0,len(lista),3):
+                        imprimirGrafo(lista, direcionado)
+                        print(f"Lista de Vertices: {lista2}")
+                        tamanho = len(lista)/3
+                        print("Tamanho do Grafo = ", tamanho)
+                        ordem = len(sorted(set(lista2)))
+                        print("Ordem do Grafo = ", ordem)
+                        print("\nLista de Adjacências:")
+                        for j in range(0, len(lista2), 2):
+                            print(
+                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+
                         
-                        print(f"""
-                        ({lista[j+2]})
-                        {lista[j]} ----> {lista[j+1]}
-                        """)
-                        j +=3
-                except ValueError:
-                    print(f"Erro no tipo da entrada {ValueError}")
+                        print(
+                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                        u = input()
+                        v = input()
+                        contador = 0
+
+                        for j in range(0, len(lista2), 2):
+                            if lista2[j] == u:
+                                if lista2[j+1] == v:
+                                    contador += 1
+                            j += 2
+
+                        if contador == 1:
+                            print("São adjacentes")
+                        elif contador == 0:
+                            print("Não são adjacentes")
+
+
+
+                    except ValueError:
+                        print(f"Erro no tipo da entrada {ValueError}")
+
+                elif direcionado == 2:
+                    lista = []
+                    lista2 = []
+                    try:
+                        entrada = int(
+                            input("Quantos pares de vertice você quer criar?: "))
+                        for i in range(entrada*2):
+                            print("digite a letra do vertice:")
+                            x = input()
+                            lista.append(x)
+                            lista2.append(x)
+                            
+
+                        imprimirGrafo(lista, direcionado)
+                        tamanho = len(lista)/2
+                        print("Tamanho do Grafo = ",tamanho)
+                        print(f"Lista de Vertices: {lista2}")
+                        ordem = len(sorted(set(lista2)))
+                        print("Ordem do Grafo = ", ordem)
+                    except ValueError:
+                        print(f"Erro no tipo da entrada {ValueError}")
+
+                elif direcionado == 3:
+                    return grafos()
+
+            elif c == 2:
+                print("""
+            (4) Valorado
+            (5) Não Valorado
+            (6) Sair
+                """)
+                naoDirecionado = int(input("O seu grafo não direcionado vai ser: "))
+                if naoDirecionado == 4:
+                    lista = []
+                    lista2 = []
+                    try:
+                        entrada = int(
+                            input("Quantos pares de vertice você quer criar?: "))
+                        for i in range(entrada*2):
+                            print("digite a letra do vertice:")
+                            x = input()
+                            lista.append(x)
+                            lista2.append(x)
+
+                            if (i+1) % 2 == 0:
+                                print("digite o valor da aresta (?):")
+                                valor = int(input())
+                                lista.append(valor)
+
+                            
+
+                        imprimirGrafo(lista, naoDirecionado)
+                        aux = len(lista)/3
+                        tamanho = aux * 4
+                        print("Tamanho do Grafo = ",tamanho)
+                        print(f"Lista de Vertices: {lista2}")
+                        ordem = len(sorted(set(lista2)))
+                        print("Ordem do Grafo = ", ordem)
+                    except ValueError:
+                        print(f"Erro no tipo da entrada {ValueError}")
+
+                elif naoDirecionado == 5:
+                    lista = []
+                    lista2 = []
+                    try:
+                        entrada = int(
+                            input("Quantos pares de vertice você quer criar?: "))
+                        for i in range(entrada*2):
+                            print("digite a letra do vertice:")
+                            x = input()
+                            lista.append(x)
+                            lista2.append(x)
+                            
+
+                        imprimirGrafo(lista, naoDirecionado)
+                        tamanho = len(lista) * 2
+                        print("Tamanho do Grafo = ",tamanho)
+                        print(f"Lista de Vertices: {lista2}")
+                        ordem = len(sorted(set(lista2)))
+                        print("Ordem do Grafo = ", ordem)
+                    except ValueError:
+                        print(f"Erro no tipo da entrada {ValueError}")
+
+                elif naoDirecionado == 6:
+                    return grafos()
+            elif c == 3:
+                break
+
+            else:
+                print("\nResponda Apenas(1-2-3)")
+            print("-------------------------")
+            print("(1) VOLTAR MENU")
+            b = int(input(""))
+            if d==2:
+                break
+        except ValueError:
+            print(f"Erro no tipo da entrada {ValueError}")
+
+
 
 def menuGrafos():
     b = 1
@@ -67,6 +252,7 @@ def menuGrafos():
         - NÃO
     -----------------------------""")
         a = input("Opção: ").upper()
+        print("\n")
         if a == "SIM":
             grafos()
         elif a == "NÃO" or a == "NAO":
