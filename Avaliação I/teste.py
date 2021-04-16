@@ -3,11 +3,9 @@ import time
 c = 0
 d = 1
 
-ListaVertices = {}
-
-
 def imprimirGrafo(grafo, modo):
 
+    # Direcionado e Valorado
     if modo == 1:
         print("---------------------------------------------------")
         print("\t\t\tVisualização")
@@ -31,15 +29,30 @@ def imprimirGrafo(grafo, modo):
         print("---------------------------------------------------")
         print("\n")
 
+    # Direcionado e Não Valorado
     elif modo == 2:
+        print("---------------------------------------------------")
+        print("\t\t\tVisualização")
         for j in range(0, len(grafo), 2):
             print(f"""
 
                             {grafo[j]} ----> {grafo[j+1]}
                             """)
             j += 2
+        for j in range(0, len(grafo), 2):
 
+            print(f"""Vértice de Saída | Vértice de Chegada
+            {grafo[j]}                  {grafo[j+1]}
+            """)
+            j += 2
+
+        print("---------------------------------------------------")
+        print("\n")
+
+    # Não Direcionado e Valorado
     elif modo == 4:
+        print("---------------------------------------------------")
+        print("\t\t\tVisualização")
         for j in range(0, len(grafo), 3):
 
             print(f"""
@@ -47,13 +60,34 @@ def imprimirGrafo(grafo, modo):
                             {grafo[j]} ---- {grafo[j+1]}
                             """)
             j += 3
+        print("---------------------------------------------------")
+        print("\t\t\tLista de Arestas")
+        for j in range(0, len(grafo), 3):
 
+            print(f"""Nome da aresta |         Vértices
+        ({grafo[j+2]})               {grafo[j]}          {grafo[j+1]}
+            """)
+            j += 3
+
+        print("---------------------------------------------------")
+        print("\n")
+
+    # Não Direcionado e Não valorado
     elif modo == 5:
+
+        print("---------------------------------------------------")
+        print("\t\t\tVisualização")
         for j in range(0, len(grafo), 2):
             print(f"""
 
                             {grafo[j]} ---- {grafo[j+1]}
                             """)
+            j += 2
+        for j in range(0, len(grafo), 2):
+
+            print(f"""Vértice de Saída | Vértice de Chegada
+            {grafo[j]}                  {grafo[j+1]}
+            """)
             j += 2
 
 
@@ -84,7 +118,7 @@ def grafos():
                         entrada = int(
                             input("Quantos pares de vertice você quer criar:"))
                         for i in range(entrada*2):
-                            print("digite a letra do vertice:")
+                            print("digite a letra do vertice entrada: ")
                             x = input()
                             lista.append(x)
                             lista2.append(x)
@@ -96,8 +130,6 @@ def grafos():
                                 for j in range(0, len(lista), 3):
                                     y = lista[j]
                                     z = lista[j+1]
-                                    # vertices = dict({y: z})
-                                    # ListaVertices.update(vertices)
                                     j += 3
 
                         imprimirGrafo(lista, direcionado)
@@ -110,11 +142,13 @@ def grafos():
                         for j in range(0, len(lista2), 2):
                             print(
                                 f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
-
                         
+                        print("\n")
                         print(
                             "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                        print("Vertice 1: ")
                         u = input()
+                        print("Vertice 2: ")
                         v = input()
                         contador = 0
 
@@ -128,8 +162,6 @@ def grafos():
                             print("São adjacentes")
                         elif contador == 0:
                             print("Não são adjacentes")
-
-
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -145,14 +177,38 @@ def grafos():
                             x = input()
                             lista.append(x)
                             lista2.append(x)
-                            
 
                         imprimirGrafo(lista, direcionado)
                         tamanho = len(lista)/2
-                        print("Tamanho do Grafo = ",tamanho)
+                        print("Tamanho do Grafo = ", tamanho)
                         print(f"Lista de Vertices: {lista2}")
                         ordem = len(sorted(set(lista2)))
                         print("Ordem do Grafo = ", ordem)
+                        print("\nLista de Adjacências:")
+                        for j in range(0, len(lista2), 2):
+                            print(
+                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+
+                        print("\n")
+                        print(
+                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                        print("Vertice 1: ")
+                        u = input()
+                        print("Vertice 2: ")
+                        v = input()
+                        contador = 0
+
+                        for j in range(0, len(lista2), 2):
+                            if lista2[j] == u:
+                                if lista2[j+1] == v:
+                                    contador += 1
+                            j += 2
+
+                        if contador == 1:
+                            print("São adjacentes")
+                        elif contador == 0:
+                            print("Não são adjacentes")
+
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
 
@@ -165,7 +221,8 @@ def grafos():
             (5) Não Valorado
             (6) Sair
                 """)
-                naoDirecionado = int(input("O seu grafo não direcionado vai ser: "))
+                naoDirecionado = int(
+                    input("O seu grafo não direcionado vai ser: "))
                 if naoDirecionado == 4:
                     lista = []
                     lista2 = []
@@ -183,15 +240,37 @@ def grafos():
                                 valor = int(input())
                                 lista.append(valor)
 
-                            
-
                         imprimirGrafo(lista, naoDirecionado)
                         aux = len(lista)/3
                         tamanho = aux * 4
-                        print("Tamanho do Grafo = ",tamanho)
+                        print("Tamanho do Grafo = ", tamanho)
                         print(f"Lista de Vertices: {lista2}")
                         ordem = len(sorted(set(lista2)))
                         print("Ordem do Grafo = ", ordem)
+                        print("\nLista de Adjacências:")
+                        for j in range(0, len(lista2), 2):
+                            print(
+                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+
+                        print("\n")
+                        print(
+                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                        print("Vertice 1: ")
+                        u = input()
+                        print("Vertice 2: ")
+                        v = input()
+
+                        for j in range(0, len(lista2), 2):
+                            if lista2[j] == u:
+                                if lista2[j+1] == v:
+                                    print("São adjacentes")
+                            elif lista2[j] == u:
+                                if lista2[j+1] == v:
+                                    print("São adjacentes")
+                            else:
+                                print("Não são adjacentes")
+                            j += 2
+
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
 
@@ -206,14 +285,35 @@ def grafos():
                             x = input()
                             lista.append(x)
                             lista2.append(x)
-                            
 
                         imprimirGrafo(lista, naoDirecionado)
                         tamanho = len(lista) * 2
-                        print("Tamanho do Grafo = ",tamanho)
+                        print("Tamanho do Grafo = ", tamanho)
                         print(f"Lista de Vertices: {lista2}")
                         ordem = len(sorted(set(lista2)))
                         print("Ordem do Grafo = ", ordem)
+                        print("\nLista de Adjacências:")
+                        for j in range(0, len(lista2), 2):
+                            print(
+                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                        print("\n")
+                        print(
+                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                        print("Vertice 1: ")
+                        u = input()
+                        print("Vertice 2: ")
+                        v = input()
+
+                        for j in range(0, len(lista2), 2):
+                            if lista2[j] == u:
+                                if lista2[j+1] == v:
+                                    print("São adjacentes")
+                            elif lista2[j] == u:
+                                if lista2[j+1] == v:
+                                    print("São adjacentes")
+                            else:
+                                print("Não são adjacentes")
+                            j += 2
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
 
@@ -227,11 +327,10 @@ def grafos():
             print("-------------------------")
             print("(1) VOLTAR MENU")
             b = int(input(""))
-            if d==2:
+            if d == 2:
                 break
         except ValueError:
             print(f"Erro no tipo da entrada {ValueError}")
-
 
 
 def menuGrafos():
