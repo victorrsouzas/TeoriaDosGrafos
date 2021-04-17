@@ -91,6 +91,34 @@ def imprimirGrafo(grafo, modo):
             j += 2
 
 
+def grauVertice(vertices, grafo, modo):
+    
+    # Direcionado
+    if modo == 1 or modo == 2:
+        
+        for j in range(0, len(vertices), 1):
+            grauSaida = 0
+            grauEntrada = 0 
+            for i in range(0, len(grafo), 2):
+                if vertices[j] == grafo[i]:
+                    grauSaida+=1
+            for i in range(1, len(grafo), 2):
+                if vertices[j] == grafo[i]:
+                    grauEntrada+=1
+            print("Grau de saída vértice   ", vertices[j]," = ", grauSaida)
+            print("Grau de entrada vértice ", vertices[j]," = ", grauEntrada)
+           
+          
+    # Não Direcionado 
+    elif modo == 4 or modo == 5:
+        for j in range(0, len(vertices), 1):
+            grau = 0
+            for i in range(0, len(grafo), 1):
+                if vertices[j] == grafo[i]:
+                    grau+=1
+            print("Grau do vértice ", vertices[j]," = ", grau)
+            
+
 def grafos():
 
     while d == 1:
@@ -113,27 +141,29 @@ def grafos():
                 if direcionado == 1:
                     lista = []
                     lista2 = []
-                    vertices = {}
                     try:
                         entrada = int(
-                            input("Quantos pares de vertice você quer criar:"))
-                        for i in range(entrada*2):
-                            print("digite a letra do vertice entrada: ")
-                            x = input()
-                            lista.append(x)
-                            lista2.append(x)
-
-                            if (i+1) % 2 == 0:
+                            input("Quantos pares de vértice você quer criar:"))
+                        for i in range(entrada):
+                            print("Digite a letra do primeiro vértice: ")
+                            verticeInput1 = input()
+                            print("Digite a letra do segundo vértice: ")
+                            verticeInput2 = input()
+                            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                                lista.append(verticeInput1)
+                                lista2.append(verticeInput1)
+                                lista.append(verticeInput2)
+                                lista2.append(verticeInput2)
                                 print("Digite o valor da aresta:")
                                 valor = int(input())
                                 lista.append(valor)
-                                for j in range(0, len(lista), 3):
-                                    y = lista[j]
-                                    z = lista[j+1]
-                                    j += 3
+                            else:
+                                print("Operação não válida, tente novamente")
+                                i-=1
+
 
                         imprimirGrafo(lista, direcionado)
-                        print(f"Lista de Vertices: {lista2}")
+                        print(f"Lista de Vértices: {lista2}")
                         tamanho = len(lista)/3
                         print("Tamanho do Grafo = ", tamanho)
                         ordem = len(sorted(set(lista2)))
@@ -141,14 +171,14 @@ def grafos():
                         print("\nLista de Adjacências:")
                         for j in range(0, len(lista2), 2):
                             print(
-                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
                         
                         print("\n")
                         print(
                             "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vertice 1: ")
+                        print("Vértice 1: ")
                         u = input()
-                        print("Vertice 2: ")
+                        print("Vértice 2: ")
                         v = input()
                         contador = 0
 
@@ -162,18 +192,23 @@ def grafos():
                             print("São adjacentes")
                         elif contador == 0:
                             print("Não são adjacentes")
+                        print("\n")
+
+                        vertices = sorted(set(lista2))
+                        grauVertice(vertices,lista2, direcionado)
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
+                        
 
                 elif direcionado == 2:
                     lista = []
                     lista2 = []
                     try:
                         entrada = int(
-                            input("Quantos pares de vertice você quer criar?: "))
+                            input("Quantos pares de vértice você quer criar?: "))
                         for i in range(entrada*2):
-                            print("digite a letra do vertice:")
+                            print("Digite a letra do vértice:")
                             x = input()
                             lista.append(x)
                             lista2.append(x)
@@ -181,20 +216,20 @@ def grafos():
                         imprimirGrafo(lista, direcionado)
                         tamanho = len(lista)/2
                         print("Tamanho do Grafo = ", tamanho)
-                        print(f"Lista de Vertices: {lista2}")
+                        print(f"Lista de Vértices: {lista2}")
                         ordem = len(sorted(set(lista2)))
                         print("Ordem do Grafo = ", ordem)
                         print("\nLista de Adjacências:")
                         for j in range(0, len(lista2), 2):
                             print(
-                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
 
                         print("\n")
                         print(
                             "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vertice 1: ")
+                        print("Vértice 1: ")
                         u = input()
-                        print("Vertice 2: ")
+                        print("Vértice 2: ")
                         v = input()
                         contador = 0
 
@@ -208,6 +243,10 @@ def grafos():
                             print("São adjacentes")
                         elif contador == 0:
                             print("Não são adjacentes")
+                        print("\n")
+
+                        vertices = sorted(set(lista2))
+                        grauVertice(vertices,lista2, direcionado)
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -228,18 +267,24 @@ def grafos():
                     lista2 = []
                     try:
                         entrada = int(
-                            input("Quantos pares de vertice você quer criar?: "))
-                        for i in range(entrada*2):
-                            print("digite a letra do vertice:")
-                            x = input()
-                            lista.append(x)
-                            lista2.append(x)
-
-                            if (i+1) % 2 == 0:
-                                print("digite o valor da aresta (?):")
+                            input("Quantos pares de vértice você quer criar?: "))
+                        for i in range(entrada):
+                            print("Digite a letra do primeiro vértice: ")
+                            verticeInput1 = input()
+                            print("Digite a letra do segundo vértice: ")
+                            verticeInput2 = input()
+                            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                                lista.append(verticeInput1)
+                                lista2.append(verticeInput1)
+                                lista.append(verticeInput2)
+                                lista2.append(verticeInput2)
+                                print("Digite o valor da aresta:")
                                 valor = int(input())
                                 lista.append(valor)
-
+                            else:
+                                print("Operação não válida, tente novamente")
+                                i-=1
+        
                         imprimirGrafo(lista, naoDirecionado)
                         aux = len(lista)/3
                         tamanho = aux * 4
@@ -250,26 +295,29 @@ def grafos():
                         print("\nLista de Adjacências:")
                         for j in range(0, len(lista2), 2):
                             print(
-                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
-
+                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
                         print("\n")
                         print(
                             "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vertice 1: ")
+                        print("Vértice 1: ")
                         u = input()
-                        print("Vertice 2: ")
+                        print("Vértice 2: ")
                         v = input()
 
                         for j in range(0, len(lista2), 2):
                             if lista2[j] == u:
                                 if lista2[j+1] == v:
                                     print("São adjacentes")
-                            elif lista2[j] == u:
-                                if lista2[j+1] == v:
+                            elif lista2[j] == v:
+                                if lista2[j+1] == u:
                                     print("São adjacentes")
                             else:
                                 print("Não são adjacentes")
                             j += 2
+                        
+                        print("\n")
+                        vertices = sorted(set(lista2))
+                        grauVertice(vertices,lista2, naoDirecionado)
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -279,9 +327,9 @@ def grafos():
                     lista2 = []
                     try:
                         entrada = int(
-                            input("Quantos pares de vertice você quer criar?: "))
+                            input("Quantos pares de vértice você quer criar?: "))
                         for i in range(entrada*2):
-                            print("digite a letra do vertice:")
+                            print("Digite a letra do vértice:")
                             x = input()
                             lista.append(x)
                             lista2.append(x)
@@ -289,31 +337,36 @@ def grafos():
                         imprimirGrafo(lista, naoDirecionado)
                         tamanho = len(lista) * 2
                         print("Tamanho do Grafo = ", tamanho)
-                        print(f"Lista de Vertices: {lista2}")
+                        print(f"Lista de Vértices: {lista2}")
                         ordem = len(sorted(set(lista2)))
                         print("Ordem do Grafo = ", ordem)
                         print("\nLista de Adjacências:")
                         for j in range(0, len(lista2), 2):
                             print(
-                                f"Vertice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
                         print("\n")
                         print(
                             "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vertice 1: ")
+                        print("Vértice 1: ")
                         u = input()
-                        print("Vertice 2: ")
+                        print("Vértice 2: ")
                         v = input()
 
                         for j in range(0, len(lista2), 2):
                             if lista2[j] == u:
                                 if lista2[j+1] == v:
                                     print("São adjacentes")
-                            elif lista2[j] == u:
-                                if lista2[j+1] == v:
+                            elif lista2[j] == v:
+                                if lista2[j+1] == u:
                                     print("São adjacentes")
                             else:
                                 print("Não são adjacentes")
                             j += 2
+
+                        print("\n")
+                        vertices = sorted(set(lista2))
+                        grauVertice(vertices,lista2, naoDirecionado)
+
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
 
