@@ -8,7 +8,6 @@ e = 1
 
 G = nx.DiGraph()
 # Grafo extra para matriz
-
 G2 = nx.Graph()
 
 
@@ -199,99 +198,123 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        while e == 1:
-                            
-                            print("Digite o vertice de saida: ")
-                            verticeInput1 = input()
-                            print("Digite o vertice de chegada: ")
-                            verticeInput2 = input()
-                            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
-                                lista.append(verticeInput1)
-                                lista2.append(verticeInput1)
-                                lista.append(verticeInput2)
-                                lista2.append(verticeInput2)
-                                if verticeInput2 != "":
-                                    print(
-                                        "Digite o valor da aresta: ")
-                                    valor = int(input())
-                                    lista.append(valor)
-                                    G.add_node(verticeInput1)
-                                    G2.add_node(verticeInput1)
+                        print("""
+                    (1) Incluir
+                    (2) Deletar
+                    (3) Visualizar o grafo
+                    (4) Sair
+                        """)
+                        opcao = int(input("Opção: "))
+                        if opcao == 1:
+                            while e == 1:
+                                
+                                print("Digite o vertice de saida: ")
+                                verticeInput1 = input()
+                                print("Digite o vertice de chegada: ")
+                                verticeInput2 = input()
+                                if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                                    lista.append(verticeInput1)
+                                    lista2.append(verticeInput1)
+                                    lista.append(verticeInput2)
+                                    lista2.append(verticeInput2)
+                                    if verticeInput2 != "":
+                                        print(
+                                            "Digite o valor da aresta: ")
+                                        valor = int(input())
+                                        lista.append(valor)
+                                        G.add_node(verticeInput1)
+                                        G2.add_node(verticeInput1)
+                                    else:
+                                        valor = 0
+                                        lista.append(valor)
+                                        G.add_node(verticeInput1)
+                                        G2.add_node(verticeInput1)
+                                    if verticeInput2 != "":
+                                        G.add_node(verticeInput2)
+                                        G2.add_node(verticeInput2)
+                                        G.add_edge(verticeInput1,
+                                                verticeInput2, weight=valor)
+                                        G2.add_edge(verticeInput1, verticeInput2)
+
                                 else:
-                                    valor = 0
-                                    lista.append(valor)
-                                    G.add_node(verticeInput1)
-                                    G2.add_node(verticeInput1)
-                                if verticeInput2 != "":
-                                    G.add_node(verticeInput2)
-                                    G2.add_node(verticeInput2)
-                                    G.add_edge(verticeInput1,
-                                            verticeInput2, weight=valor)
-                                    G2.add_edge(verticeInput1, verticeInput2)
+                                    print("Operação não válida, tente novamente")
 
-                            else:
-                                print("Operação não válida, tente novamente")
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
 
-                            print("Você deseja continuar? S/N")
-                            x = input().upper()
-                            if x == "S":
-                                continue
-                            if x == "N":
-                                break
+                            imprimirGrafo(lista, direcionado)
+                            print(f"Lista de Vértices: {G.nodes()}")
+                            tamanho = len(lista)/3
+                            print("Tamanho do Grafo = ", tamanho)
+                            ordem = len(sorted(set(lista2)))
+                            print("Ordem do Grafo = ", ordem)
+                            print("\nLista de Adjacências:")
+                            for j in range(0, len(lista2), 2):
+                                print(
+                                    f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
 
-                        imprimirGrafo(lista, direcionado)
-                        print(f"Lista de Vértices: {G.nodes()}")
-                        tamanho = len(lista)/3
-                        print("Tamanho do Grafo = ", tamanho)
-                        ordem = len(sorted(set(lista2)))
-                        print("Ordem do Grafo = ", ordem)
-                        print("\nLista de Adjacências:")
-                        for j in range(0, len(lista2), 2):
+                            print('\nMatriz de adjacências de GRAFO')
+                            A = nx.adjacency_matrix(G2)
+                            print(A.todense())
+                            print("\n")
                             print(
-                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                                "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                            print("Vértice 1: ")
+                            u = input()
+                            print("Vértice 2: ")
+                            v = input()
+                            contador = 0
 
-                        print('\nMatriz de adjacências de GRAFO')
-                        A = nx.adjacency_matrix(G2)
-                        print(A.todense())
-                        print("\n")
-                        print(
-                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vértice 1: ")
-                        u = input()
-                        print("Vértice 2: ")
-                        v = input()
-                        contador = 0
+                            for j in range(0, len(lista2), 2):
+                                if lista2[j] == u:
+                                    if lista2[j+1] == v:
+                                        contador += 1
+                                j += 2
 
-                        for j in range(0, len(lista2), 2):
-                            if lista2[j] == u:
-                                if lista2[j+1] == v:
-                                    contador += 1
-                            j += 2
+                            if contador == 1:
+                                print("São adjacentes")
+                            elif contador == 0:
+                                print("Não são adjacentes")
+                            print("\n")
 
-                        if contador == 1:
-                            print("São adjacentes")
-                        elif contador == 0:
-                            print("Não são adjacentes")
-                        print("\n")
+                            vertices = sorted(set(lista2))
+                            grauVertice(vertices, lista2, direcionado)
 
-                        vertices = sorted(set(lista2))
-                        grauVertice(vertices, lista2, direcionado)
+                        elif opcao == 2:
+                            while e == 1:
+                                print("Deseja remover qual vertice: ")
+                                r = input()
+                                G.remove_node(r)
 
-                        pos = nx.spring_layout(G)
-                        labels = nx.get_edge_attributes(G, 'weight')
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
+                          
+                        elif opcao == 3:
+                            pos = nx.spring_layout(G)
+                            labels = nx.get_edge_attributes(G, 'weight')
 
-                        nx.draw_networkx_edge_labels(
-                            G, pos, edge_labels=labels)
+                            nx.draw_networkx_edge_labels(
+                                G, pos, edge_labels=labels)
 
-                        options = {
-                            'width': 1.0,
-                            'arrowstyle': '-|>',
-                            'arrowsize': 12,
-                        }
-                        nx.draw_networkx(G, pos, arrows=True,
-                                         with_labels=True, **options)
+                            options = {
+                                'width': 1.0,
+                                'arrowstyle': '-|>',
+                                'arrowsize': 12,
+                            }
+                            nx.draw_networkx(G, pos, arrows=True,
+                                            with_labels=True, **options)
 
-                        plt.show()
+                            plt.show()
+                        elif opcao == 4:
+                            return grafos()
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -300,77 +323,103 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        while e == 1:
-                            print("Digite o vertice de saida: ")
-                            verticeInput1 = input()
-                            print("Digite o vertice de entrada: ")
-                            verticeInput2 = input()
-                            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
-                                lista.append(verticeInput1)
-                                lista2.append(verticeInput1)
-                                lista.append(verticeInput2)
-                                lista2.append(verticeInput2)
-                                if verticeInput2 != "":
-                                    G.add_node(verticeInput1)
+                        print("""
+                    (1) Incluir
+                    (2) Deletar
+                    (3) Visualizar o grafo
+                    (4) Sair
+                        """)
+                        opcao = int(input("Opção: "))
+                        if opcao == 1:
+                            while e == 1:
+                                print("Digite o vertice de saida: ")
+                                verticeInput1 = input()
+                                print("Digite o vertice de entrada: ")
+                                verticeInput2 = input()
+                                if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                                    lista.append(verticeInput1)
+                                    lista2.append(verticeInput1)
+                                    lista.append(verticeInput2)
+                                    lista2.append(verticeInput2)
+                                    if verticeInput2 != "":
+                                        G.add_node(verticeInput1)
 
-                                else:
-                                    G.add_node(verticeInput1)
+                                    else:
+                                        G.add_node(verticeInput1)
 
-                                if verticeInput2 != "":
-                                    G.add_node(verticeInput2)
+                                    if verticeInput2 != "":
+                                        G.add_node(verticeInput2)
 
-                                    G.add_edge(verticeInput1, verticeInput2)
+                                        G.add_edge(verticeInput1, verticeInput2)
 
-                            print("Você deseja continuar? S/N")
-                            x = input().upper()
-                            if x == "S":
-                                continue
-                            if x == "N":
-                                break
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
 
-                        imprimirGrafo(lista, direcionado)
-                        print(f"Lista de Vértices: {G.nodes()}")
-                        tamanho = len(lista)/2
-                        print("Tamanho do Grafo = ", tamanho)
-                        ordem = len(sorted(set(lista2)))
-                        print("Ordem do Grafo = ", ordem)
-                        print("\nLista de Adjacências:")
-                        for j in range(0, len(lista2), 2):
+                            imprimirGrafo(lista, direcionado)
+                            print(f"Lista de Vértices: {G.nodes()}")
+                            tamanho = len(lista)/2
+                            print("Tamanho do Grafo = ", tamanho)
+                            ordem = len(sorted(set(lista2)))
+                            print("Ordem do Grafo = ", ordem)
+                            print("\nLista de Adjacências:")
+                            for j in range(0, len(lista2), 2):
+                                print(
+                                    f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+
+                            print('\nMatriz de adjacências de GRAFO')
+                            A = nx.adjacency_matrix(G)
+                            print(A.todense())
+                            print("\n")
                             print(
-                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                                "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                            print("Vértice 1: ")
+                            u = input()
+                            print("Vértice 2: ")
+                            v = input()
+                            contador = 0
 
-                        print('\nMatriz de adjacências de GRAFO')
-                        A = nx.adjacency_matrix(G)
-                        print(A.todense())
-                        print("\n")
-                        print(
-                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vértice 1: ")
-                        u = input()
-                        print("Vértice 2: ")
-                        v = input()
-                        contador = 0
+                            for j in range(0, len(lista2), 2):
+                                if lista2[j] == u:
+                                    if lista2[j+1] == v:
+                                        contador += 1
+                                j += 2
 
-                        for j in range(0, len(lista2), 2):
-                            if lista2[j] == u:
-                                if lista2[j+1] == v:
-                                    contador += 1
-                            j += 2
+                            if contador == 1:
+                                print("São adjacentes")
+                            elif contador == 0:
+                                print("Não são adjacentes")
+                            print("\n")
 
-                        if contador == 1:
-                            print("São adjacentes")
-                        elif contador == 0:
-                            print("Não são adjacentes")
-                        print("\n")
+                            vertices = sorted(set(lista2))
+                            grauVertice(vertices, lista2, direcionado)
+                        
+                        elif opcao == 2:
+                            while e == 1:
+                                print("Deseja remover qual vertice: ")
+                                r = input()
+                                G.remove_node(r)
 
-                        vertices = sorted(set(lista2))
-                        grauVertice(vertices, lista2, direcionado)
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
+                        
+                        elif opcao == 3:
 
-                        pos = nx.spring_layout(G)
+                            pos = nx.spring_layout(G)
 
-                        nx.draw(G, pos, with_labels=True)
+                            nx.draw(G, pos, with_labels=True)
 
-                        plt.show()
+                            plt.show()
+                        
+                        elif opcao == 4:
+                            break
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -390,95 +439,121 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        while e == 1:
-                            
-                            print("Digite o vertice de saida: ")
-                            verticeInput1 = input()
-                            print("Digite o vertice de chegada: ")
-                            verticeInput2 = input()
-                            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
-                                lista.append(verticeInput1)
-                                lista2.append(verticeInput1)
-                                lista.append(verticeInput2)
-                                lista2.append(verticeInput2)
-                                if verticeInput2 != "":
-                                    print(
-                                        "Digite o valor da aresta: ")
-                                    valor = int(input())
-                                    lista.append(valor)
-                                    G.add_node(verticeInput1)
-                                    G2.add_node(verticeInput1)
+                        print("""
+                    (1) Incluir
+                    (2) Deletar
+                    (3) Visualizar o grafo
+                    (4) Sair
+                        """)
+                        opcao = int(input("Opção: "))
+                        if opcao == 1:
+                            while e == 1:
+                                
+                                print("Digite o vertice de saida: ")
+                                verticeInput1 = input()
+                                print("Digite o vertice de chegada: ")
+                                verticeInput2 = input()
+                                if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                                    lista.append(verticeInput1)
+                                    lista2.append(verticeInput1)
+                                    lista.append(verticeInput2)
+                                    lista2.append(verticeInput2)
+                                    if verticeInput2 != "":
+                                        print(
+                                            "Digite o valor da aresta: ")
+                                        valor = int(input())
+                                        lista.append(valor)
+                                        G.add_node(verticeInput1)
+                                        G2.add_node(verticeInput1)
+                                    else:
+                                        valor = 0
+                                        lista.append(valor)
+                                        G.add_node(verticeInput1)
+                                        G2.add_node(verticeInput1)
+                                    if verticeInput2 != "":
+                                        G.add_node(verticeInput2)
+                                        G2.add_node(verticeInput2)
+                                        G.add_edge(verticeInput1,
+                                                verticeInput2)
+                                        G2.add_edge(verticeInput1, verticeInput2, weight=valor)
+
                                 else:
-                                    valor = 0
-                                    lista.append(valor)
-                                    G.add_node(verticeInput1)
-                                    G2.add_node(verticeInput1)
-                                if verticeInput2 != "":
-                                    G.add_node(verticeInput2)
-                                    G2.add_node(verticeInput2)
-                                    G.add_edge(verticeInput1,
-                                            verticeInput2)
-                                    G2.add_edge(verticeInput1, verticeInput2, weight=valor)
+                                    print("Operação não válida, tente novamente")
 
-                            else:
-                                print("Operação não válida, tente novamente")
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
 
-                            print("Você deseja continuar? S/N")
-                            x = input().upper()
-                            if x == "S":
-                                continue
-                            if x == "N":
-                                break
+                            imprimirGrafo(lista, naoDirecionado)
+                            print(f"Lista de Vértices: {G.nodes()}")
+                            aux = len(lista)/3
+                            tamanho = aux * 4
+                            print("Tamanho do Grafo = ", tamanho)
+                            ordem = len(sorted(set(lista2)))
+                            print("Ordem do Grafo = ", ordem)
+                            print("\nLista de Adjacências:")
+                            for j in range(0, len(lista2), 2):
+                                print(
+                                    f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
 
-                        imprimirGrafo(lista, naoDirecionado)
-                        print(f"Lista de Vértices: {G.nodes()}")
-                        aux = len(lista)/3
-                        tamanho = aux * 4
-                        print("Tamanho do Grafo = ", tamanho)
-                        ordem = len(sorted(set(lista2)))
-                        print("Ordem do Grafo = ", ordem)
-                        print("\nLista de Adjacências:")
-                        for j in range(0, len(lista2), 2):
+                            print('\nMatriz de adjacências de GRAFO')
+                            A = nx.adjacency_matrix(G)
+                            print(A.todense())
+                            print("\n")
                             print(
-                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                                "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                            print("Vértice 1: ")
+                            u = input()
+                            print("Vértice 2: ")
+                            v = input()
+                            contador = 0
 
-                        print('\nMatriz de adjacências de GRAFO')
-                        A = nx.adjacency_matrix(G)
-                        print(A.todense())
-                        print("\n")
-                        print(
-                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vértice 1: ")
-                        u = input()
-                        print("Vértice 2: ")
-                        v = input()
-                        contador = 0
+                            for j in range(0, len(lista2), 2):
+                                if lista2[j] == u:
+                                    if lista2[j+1] == v:
+                                        contador += 1
+                                elif lista2[j] == v:
+                                    if lista2[j+1] == u:
+                                        contador += 1
+                                j += 2
 
-                        for j in range(0, len(lista2), 2):
-                            if lista2[j] == u:
-                                if lista2[j+1] == v:
-                                    contador += 1
-                            elif lista2[j] == v:
-                                if lista2[j+1] == u:
-                                    contador += 1
-                            j += 2
+                            if contador == 1:
+                                print("São adjacentes")
+                            elif contador == 0:
+                                print("Não são adjacentes")
+                            print("\n")
 
-                        if contador == 1:
-                            print("São adjacentes")
-                        elif contador == 0:
-                            print("Não são adjacentes")
-                        print("\n")
+                            vertices = sorted(set(lista2))
+                            grauVertice(vertices, lista2, naoDirecionado)
+                        
+                        elif opcao == 2:
+                            while e == 1:
+                                print("Deseja remover qual vertice: ")
+                                r = input()
+                                G.remove_node(r)
 
-                        vertices = sorted(set(lista2))
-                        grauVertice(vertices, lista2, naoDirecionado)
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
+                        
+                        elif opcao == 3:
 
-                        pos = nx.spring_layout(G2)
-                        labels = nx.get_edge_attributes(G2, 'weight')
+                            pos = nx.spring_layout(G2)
+                            labels = nx.get_edge_attributes(G2, 'weight')
 
-                        nx.draw_networkx_edge_labels(G2, pos, edge_labels=labels)
-                        nx.draw(G2,pos,with_labels=True)
+                            nx.draw_networkx_edge_labels(G2, pos, edge_labels=labels)
+                            nx.draw(G2,pos,with_labels=True)
 
-                        plt.show()
+                            plt.show()
+                        
+                        elif opcao == 4:
+                            break
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -487,79 +562,105 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        while e == 1:
-                            print("Digite o vertice de saida: ")
-                            verticeInput1 = input()
-                            print("Digite o vertice de entrada: ")
-                            verticeInput2 = input()
-                            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
-                                lista.append(verticeInput1)
-                                lista2.append(verticeInput1)
-                                lista.append(verticeInput2)
-                                lista2.append(verticeInput2)
-                                if verticeInput2 != "":
-                                    G2.add_node(verticeInput1)
+                        print("""
+                    (1) Incluir
+                    (2) Deletar
+                    (3) Visualizar o grafo
+                    (4) Sair
+                        """)
+                        opcao = int(input("Opção: "))
+                        if opcao == 1:
+                            while e == 1:
+                                print("Digite o vertice de saida: ")
+                                verticeInput1 = input()
+                                print("Digite o vertice de entrada: ")
+                                verticeInput2 = input()
+                                if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                                    lista.append(verticeInput1)
+                                    lista2.append(verticeInput1)
+                                    lista.append(verticeInput2)
+                                    lista2.append(verticeInput2)
+                                    if verticeInput2 != "":
+                                        G2.add_node(verticeInput1)
 
-                                else:
-                                    G2.add_node(verticeInput1)
+                                    else:
+                                        G2.add_node(verticeInput1)
 
-                                if verticeInput2 != "":
-                                    G2.add_node(verticeInput2)
+                                    if verticeInput2 != "":
+                                        G2.add_node(verticeInput2)
 
-                                    G2.add_edge(verticeInput1, verticeInput2)
+                                        G2.add_edge(verticeInput1, verticeInput2)
 
-                            print("Você deseja continuar? S/N")
-                            x = input().upper()
-                            if x == "S":
-                                continue
-                            if x == "N":
-                                break
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
 
-                        imprimirGrafo(lista, naoDirecionado)
-                        print(f"Lista de Vértices: {G2.nodes()}")
-                        tamanho = len(lista) * 2
-                        print("Tamanho do Grafo = ", tamanho)
-                        ordem = len(sorted(set(lista2)))
-                        print("Ordem do Grafo = ", ordem)
-                        print("\nLista de Adjacências:")
-                        for j in range(0, len(lista2), 2):
+                            imprimirGrafo(lista, naoDirecionado)
+                            print(f"Lista de Vértices: {G2.nodes()}")
+                            tamanho = len(lista) * 2
+                            print("Tamanho do Grafo = ", tamanho)
+                            ordem = len(sorted(set(lista2)))
+                            print("Ordem do Grafo = ", ordem)
+                            print("\nLista de Adjacências:")
+                            for j in range(0, len(lista2), 2):
+                                print(
+                                    f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
+                            print('\nMatriz de adjacências de GRAFO')
+                            A = nx.adjacency_matrix(G2)
+                            print(A.todense())
+                            print("\n")
                             print(
-                                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
-                        print('\nMatriz de adjacências de GRAFO')
-                        A = nx.adjacency_matrix(G2)
-                        print(A.todense())
-                        print("\n")
-                        print(
-                            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-                        print("Vértice 1: ")
-                        u = input()
-                        print("Vértice 2: ")
-                        v = input()
+                                "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+                            print("Vértice 1: ")
+                            u = input()
+                            print("Vértice 2: ")
+                            v = input()
 
-                        contador = 0
+                            contador = 0
 
-                        for j in range(0, len(lista2), 2):
-                            if lista2[j] == u:
-                                if lista2[j+1] == v:
-                                    contador += 1
-                            elif lista2[j] == v:
-                                if lista2[j+1] == u:
-                                    contador += 1
-                            j += 2
+                            for j in range(0, len(lista2), 2):
+                                if lista2[j] == u:
+                                    if lista2[j+1] == v:
+                                        contador += 1
+                                elif lista2[j] == v:
+                                    if lista2[j+1] == u:
+                                        contador += 1
+                                j += 2
 
-                        if contador == 1:
-                            print("São adjacentes")
-                        elif contador == 0:
-                            print("Não são adjacentes")
-                        print("\n")
-                        vertices = sorted(set(lista2))
-                        grauVertice(vertices, lista2, naoDirecionado)
+                            if contador == 1:
+                                print("São adjacentes")
+                            elif contador == 0:
+                                print("Não são adjacentes")
+                            print("\n")
+                            vertices = sorted(set(lista2))
+                            grauVertice(vertices, lista2, naoDirecionado)
+                        
+                        elif opcao == 2:
+                            while e == 1:
+                                print("Deseja remover qual vertice: ")
+                                r = input()
+                                G.remove_node(r)
 
-                        pos = nx.spring_layout(G2)
+                                print("Você deseja continuar? S/N")
+                                x = input().upper()
+                                if x == "S":
+                                    continue
+                                if x == "N":
+                                    break
 
-                        nx.draw(G2, pos, with_labels=True)
+                        elif opcao == 3:
 
-                        plt.show()
+                            pos = nx.spring_layout(G2)
+
+                            nx.draw(G2, pos, with_labels=True)
+
+                            plt.show()
+                        
+                        elif opcao == 4:
+                            break
 
                     except ValueError:
                         print(f"Erro no tipo da entrada {ValueError}")
@@ -572,7 +673,7 @@ def grafos():
             else:
                 print("\nResponda Apenas(1-2-3)")
             print("-------------------------")
-            print("SE QUISER INCLUIR MAIS VERTICES AO SEU GRAFO DIGITE (1) OU (2) LIMPAR O GRAFO E INICIAR UM NOVO")
+            print("(1) VISUALIZAR OPÇÕES DO GRAFO DIGITE  OU (2) LIMPAR O GRAFO E INICIAR UM NOVO")
             b = int(input(""))
             if b != 1:
                 G.clear()
@@ -627,3 +728,4 @@ def menuGrafos():
 
 
 menuGrafos()
+

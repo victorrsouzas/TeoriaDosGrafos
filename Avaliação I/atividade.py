@@ -276,6 +276,10 @@ def grafos():
 
                         vertices = sorted(set(lista2))
                         grauVertice(vertices, lista2, direcionado)
+                        print("Vc deseja remover algum vertice")
+                        
+
+                        x = input()
 
                         pos = nx.spring_layout(G)
                         labels = nx.get_edge_attributes(G, 'weight')
