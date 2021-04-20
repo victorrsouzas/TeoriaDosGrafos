@@ -5,13 +5,9 @@ import matplotlib.pyplot as plt
 buffer = 0
 d = 1
 e = 1
-
-valor = 0
-peso = 0
-
 G = nx.DiGraph()  # Direcionado
 G2 = nx.Graph()  # Não Direcionado
-
+contaAresta = 0
 lista = []
 lista2 = []
 
@@ -36,8 +32,8 @@ def menuTipo():
 
 def menuOpcoes():
     print("""
-    (1) Incluir
-    (2) Deletar
+    (1) Incluir Vertice
+    (2) Deletar Vertice
     (3) Visualizar o grafo e os dados
     (4) Sair
         """)
@@ -210,6 +206,7 @@ def grauVertice(vertices, grafo, modo, tipo):
 
 
 def incluirVerticeValorado(op, buff):
+    global contaAresta
     global verticeInput1
     global verticeInput2
     global valor
@@ -233,14 +230,16 @@ def incluirVerticeValorado(op, buff):
                 lista2.append(verticeInput2)
                 if verticeInput2 != "":
                     print(
-                        "Digite o valor da aresta: ")
+                        "Digite o peso da aresta: ")
                     valor = int(input())
                     lista.append(valor)
+                    contaAresta += 1
                     G.add_node(verticeInput1)
                     G2.add_node(verticeInput1)
                 else:
                     valor = 0
                     lista.append(valor)
+                    contaAresta += 1
                     G.add_node(verticeInput1)
                     G2.add_node(verticeInput1)
                 if verticeInput2 != "":
@@ -256,7 +255,7 @@ def incluirVerticeValorado(op, buff):
             else:
                 print("Operação não válida, tente novamente")
 
-            print("Você deseja continuar? S/N")
+            print("\nVocê deseja continuar? S/N")
             x = input().upper()
             if x == "S":
                 continue
@@ -268,6 +267,7 @@ def incluirVerticeValorado(op, buff):
 
 
 def incluirVerticeNaoValorado(op, buff):
+    global contaAresta
     global verticeInput1
     global verticeInput2
     try:
@@ -287,6 +287,7 @@ def incluirVerticeNaoValorado(op, buff):
                 lista2.append(verticeInput1)
                 lista.append(verticeInput2)
                 lista2.append(verticeInput2)
+                contaAresta += 1
                 if op == 2 and buff == 1:
                     if verticeInput2 != "":
                         G.add_node(verticeInput1)
@@ -312,7 +313,7 @@ def incluirVerticeNaoValorado(op, buff):
                         G2.add_edge(verticeInput1,
                                     verticeInput2)
 
-            print("Você deseja continuar? S/N")
+            print("\nVocê deseja continuar? S/N")
             x = input().upper()
             if x == "S":
                 continue
@@ -323,11 +324,13 @@ def incluirVerticeNaoValorado(op, buff):
 
 
 def removerVertice():
+    global contaAresta
     try:
         while e == 1:
             print("Deseja remover qual vertice: ")
             r = input()
             G.remove_node(r)
+            contaAresta -= 1
 
             print("Você deseja continuar? S/N")
             x = input().upper()
@@ -342,7 +345,9 @@ def removerVertice():
 
 def visualizarDadosGrafosValorados(op, buff):
     try:
-        print(f"Lista de Vértices: {G.nodes()}")
+        print(f"\nLista de Vértices: {G.nodes()}")
+
+        print(f"Quantidade de Arestas: {contaAresta}")
 
         tamanho = len(lista)/3
         print("Tamanho do Grafo = ", tamanho)
@@ -417,13 +422,15 @@ def visualizarDadosGrafosValorados(op, buff):
 
             plt.show()
 
-    except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
+    except IndexError:
+        print(f"Erro no tipo da entrada {IndexError}")
 
 
 def visualizarDadosGrafosNaoValorados(op, buff):
     try:
-        print(f"Lista de Vértices: {G.nodes()}")
+        print(f"\nLista de Vértices: {G.nodes()}")
+
+        print(f"Quantidade de Arestas: {contaAresta}")
 
         tamanho = len(lista)/2
         print("Tamanho do Grafo = ", tamanho)
@@ -489,6 +496,7 @@ def visualizarDadosGrafosNaoValorados(op, buff):
 
 def opcoes(peso, buffer):
     global opcao
+    global contaAresta
     menuOpcoes()
     try:
         # INCLUIR VERTICE
@@ -497,11 +505,11 @@ def opcoes(peso, buffer):
                 incluirVerticeValorado(peso, buffer)
             if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
                 incluirVerticeNaoValorado(peso, buffer)
-            return opcoes()
+            return opcoes(peso, buffer)
         # REMOVER VERTICE
         elif opcao == 2:
             removerVertice()
-            return opcoes()
+            return opcoes(peso, buffer)
         # VISUALIZAR GRAFO E OS DADOS
         elif opcao == 3:
             imprimirGrafo(lista, peso, buffer)
@@ -511,7 +519,7 @@ def opcoes(peso, buffer):
                 visualizarDadosGrafosValorados(peso, buffer)
             if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
                 visualizarDadosGrafosNaoValorados(peso, buffer)
-            return opcoes()
+            return opcoes(peso, buffer)
 
         # SAIR
         elif opcao == 4:
@@ -519,6 +527,7 @@ def opcoes(peso, buffer):
             G2.clear()
             lista.clear()
             lista2.clear()
+            contaAresta = 0
             return grafos()
 
     except ValueError:
@@ -528,7 +537,6 @@ def opcoes(peso, buffer):
 def grafos():
 
     while d == 1:
-        global opcao
         menuTipoGrafo()
         try:
             buffer = int(input("Opção: "))
