@@ -1,11 +1,16 @@
 import sys
-class Aresta:
-    
+class Aresta:  
     def __init__(self,v1,v2,value,name):
         self.vertice1 = v1
         self.vertice2 =v2
         self.value = value
         self.nome = name
+
+class Vertice:
+    def __init__(self,name):
+        self.arestasSaida = []
+        self.arestasEntrada = []
+        self.name = name
 
 def inicio():
     print("""
@@ -112,49 +117,57 @@ def switchMenu(x):
 def criarVertice():
     print("""Criando Vértice
     Vértices atuais: """)
+    global listaVertices
     for j in range(0,len(listaVertices),1):
-        print(listaVertices[j])
+        print(listaVertices[j].name)
     print("Digite um novo nome de vertice: ")
-    vertice = ""
-    while(vertice==""):
-        vertice = input()
-    global listaVertice
-    if(vertice in listaVertices):
-        print("Vértice já existe")
-    else:
-        listaVertices.append(vertice)
+    verticeName = ""
+    while(verticeName==""):
+        verticeName = input()
+    for j in range(0,len(listaVertices)):
+        if(verticeName == listaVertices[j].name):
+            print("Vértice já existe")
+            return
+    print("Vértice Criado")
+    listaVertices.append(Vertice(verticeName))
     return
 
 def criarAresta():
-    while(True):
+    global listaVertices
+    loop = 1
+    while(loop == 1):
         print("""Você irá escolher dois vertices
         para criar a aresta""")
         listaDeVerticesAdjacentes()
         buffer1 = input("Digite o vertice de partida: ")
-        if (buffer1 in listaVertices):
-            break
-        else:
+        for j in range(0,len(listaVertices)):
+            if(buffer1 == listaVertices[j].name):
+                loop = 0
+        if(loop ==1):
             print("""Nome Inadequado
-            Digite o nome de um vértice""")
-    while(True):
+    Digite o nome de um vértice""")
+    loop =1
+    while(loop == 1):
         listaDeVerticesAdjacentes()
         buffer2 = input("Digite o vertice de chegada: ")
         if(buffer1 != buffer2):
-            if (buffer2 in listaVertices):
-                break
-            else:
+            for j in range(0,len(listaVertices)):
+                if(buffer2 == listaVertices[j].name):
+                    loop =0
+            if(loop == 1):
                 print("""Nome Inadequado
-                Digite o nome de um vértice""")
+    Digite o nome de um vértice""")
         else:
             print("Vértices devem ser diferentes")
     for j in range (0,len(listaArestas),1):
-        print("Checando se vertices ligadas")
+        #print("Checando se vertices ligados")
         if(direcionado==1):
             if((listaArestas[j].vertice1 == buffer1) and (listaArestas[j].vertice2 == buffer2)):
-                print("aresta já existe")
+                print("Aresta já existe")
                 return
-        elif(((listaArestas[j].vertice1 == buffer1) and (listaArestas[j].vertice2 == buffer2))or ((listaArestas.vertice2[j] == buffer1) and (listaArestas[j].vertice1 == buffer2))):
-            print("aresta já existe")
+        elif(((listaArestas[j].vertice1 == buffer1) and (listaArestas[j].vertice2 == buffer2))or ((listaArestas[j].vertice2 == buffer1) and (listaArestas[j].vertice1 == buffer2))):
+            print("Aresta já existe")
+            return
     print("""Escolha um nome novo para a aresta
     Arestas atuais: """)
     bufferName = ""
@@ -182,12 +195,15 @@ def criarAresta():
                 digite um numero para o valor""")
     else:
         bufferValue = -1
+    for j in range(0,len(listaVertices)):
+        if(buffer1 == listaVertices[j].name):
+            listaVertices[j].arestasEntrada.append(bufferName)
+    for j in range(0,len(listaVertices)):
+        if(buffer2 == listaVertices[j].name):
+            listaVertices[j].arestasSaida.append(bufferName)
     listaArestas.append(Aresta(buffer1,buffer2,int(bufferValue),bufferName))
     print("""Aresta Criada""")
-    print("nome: ",listaArestas[0].nome ,"\nv1: ", listaArestas[0].vertice1 ,"\nv2", listaArestas[0].vertice2 ,"value", listaArestas[0].value)
-
-
-
+    #print("nome: ",listaArestas[0].nome ,"\nv1: ", listaArestas[0].vertice1 ,"\nv2", listaArestas[0].vertice2 ,"value", listaArestas[0].value)
     return
 
 def informacoesGrafo():
@@ -212,8 +228,8 @@ def mostrarGrafo():
 
 def listaDeVerticesAdjacentes():
     for j in range(0,len(listaVertices),1):
-        print(listaVertices[j]+" ")
-    print("mostrando lista de vertices")
+        print(listaVertices[j].name, end=' ')
+    print("\nMostrando lista de vertices")
     return
 
 def grauDoVertice():
