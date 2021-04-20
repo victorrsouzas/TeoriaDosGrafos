@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt
 
 c = 0
 d = 1
+e = 1
 
 G = nx.DiGraph()
 # Grafo extra para matriz
 
-G2 = nx.DiGraph()
+G2 = nx.Graph()
 
 
 def imprimirGrafo(grafo, modo):
@@ -198,12 +199,11 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        entrada = int(
-                            input("Quantos pares de vértice você quer criar:"))
-                        for i in range(entrada):
-                            print("Digite a letra do primeiro vértice: ")
+                        while e == 1:
+                            
+                            print("Digite o vertice de saida: ")
                             verticeInput1 = input()
-                            print("Digite a letra do segundo vértice: ")
+                            print("Digite o vertice de chegada: ")
                             verticeInput2 = input()
                             if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
                                 lista.append(verticeInput1)
@@ -226,12 +226,18 @@ def grafos():
                                     G.add_node(verticeInput2)
                                     G2.add_node(verticeInput2)
                                     G.add_edge(verticeInput1,
-                                               verticeInput2, weight=valor)
+                                            verticeInput2, weight=valor)
                                     G2.add_edge(verticeInput1, verticeInput2)
 
                             else:
                                 print("Operação não válida, tente novamente")
-                                i -= 1
+
+                            print("Você deseja continuar? S/N")
+                            x = input().upper()
+                            if x == "S":
+                                continue
+                            if x == "N":
+                                break
 
                         imprimirGrafo(lista, direcionado)
                         print(f"Lista de Vértices: {G.nodes()}")
@@ -294,12 +300,10 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        entrada = int(
-                            input("Quantos pares de vértice você quer criar?: "))
-                        for i in range(entrada):
-                            print("Digite a letra do primeiro vértice: ")
+                        while e == 1:
+                            print("Digite o vertice de saida: ")
                             verticeInput1 = input()
-                            print("Digite a letra do segundo vértice: ")
+                            print("Digite o vertice de entrada: ")
                             verticeInput2 = input()
                             if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
                                 lista.append(verticeInput1)
@@ -316,6 +320,13 @@ def grafos():
                                     G.add_node(verticeInput2)
 
                                     G.add_edge(verticeInput1, verticeInput2)
+
+                            print("Você deseja continuar? S/N")
+                            x = input().upper()
+                            if x == "S":
+                                continue
+                            if x == "N":
+                                break
 
                         imprimirGrafo(lista, direcionado)
                         print(f"Lista de Vértices: {G.nodes()}")
@@ -379,12 +390,11 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        entrada = int(
-                            input("Quantos pares de vértice você quer criar?: "))
-                        for i in range(entrada):
-                            print("Digite a letra do primeiro vértice: ")
+                        while e == 1:
+                            
+                            print("Digite o vertice de saida: ")
                             verticeInput1 = input()
-                            print("Digite a letra do segundo vértice: ")
+                            print("Digite o vertice de chegada: ")
                             verticeInput2 = input()
                             if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
                                 lista.append(verticeInput1)
@@ -407,12 +417,18 @@ def grafos():
                                     G.add_node(verticeInput2)
                                     G2.add_node(verticeInput2)
                                     G.add_edge(verticeInput1,
-                                               verticeInput2, weight=valor)
-                                    G2.add_edge(verticeInput1, verticeInput2)
+                                            verticeInput2)
+                                    G2.add_edge(verticeInput1, verticeInput2, weight=valor)
 
                             else:
                                 print("Operação não válida, tente novamente")
-                                i -= 1
+
+                            print("Você deseja continuar? S/N")
+                            x = input().upper()
+                            if x == "S":
+                                continue
+                            if x == "N":
+                                break
 
                         imprimirGrafo(lista, naoDirecionado)
                         print(f"Lista de Vértices: {G.nodes()}")
@@ -427,7 +443,7 @@ def grafos():
                                 f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
 
                         print('\nMatriz de adjacências de GRAFO')
-                        A = nx.adjacency_matrix(G2)
+                        A = nx.adjacency_matrix(G)
                         print(A.todense())
                         print("\n")
                         print(
@@ -456,11 +472,11 @@ def grafos():
                         vertices = sorted(set(lista2))
                         grauVertice(vertices, lista2, naoDirecionado)
 
-                        pos = nx.spring_layout(G)
-                        labels = nx.get_edge_attributes(G, 'weight')
+                        pos = nx.spring_layout(G2)
+                        labels = nx.get_edge_attributes(G2, 'weight')
 
-                        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-                        nx.draw(G,pos,with_labels=True)
+                        nx.draw_networkx_edge_labels(G2, pos, edge_labels=labels)
+                        nx.draw(G2,pos,with_labels=True)
 
                         plt.show()
 
@@ -471,10 +487,10 @@ def grafos():
                     lista = []
                     lista2 = []
                     try:
-                        for i in range(entrada):
-                            print("Digite a letra do primeiro vértice: ")
+                        while e == 1:
+                            print("Digite o vertice de saida: ")
                             verticeInput1 = input()
-                            print("Digite a letra do segundo vértice: ")
+                            print("Digite o vertice de entrada: ")
                             verticeInput2 = input()
                             if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
                                 lista.append(verticeInput1)
@@ -482,18 +498,25 @@ def grafos():
                                 lista.append(verticeInput2)
                                 lista2.append(verticeInput2)
                                 if verticeInput2 != "":
-                                    G.add_node(verticeInput1)
+                                    G2.add_node(verticeInput1)
 
                                 else:
-                                    G.add_node(verticeInput1)
+                                    G2.add_node(verticeInput1)
 
                                 if verticeInput2 != "":
-                                    G.add_node(verticeInput2)
+                                    G2.add_node(verticeInput2)
 
-                                    G.add_edge(verticeInput1, verticeInput2)
+                                    G2.add_edge(verticeInput1, verticeInput2)
+
+                            print("Você deseja continuar? S/N")
+                            x = input().upper()
+                            if x == "S":
+                                continue
+                            if x == "N":
+                                break
 
                         imprimirGrafo(lista, naoDirecionado)
-                        print(f"Lista de Vértices: {G.nodes()}")
+                        print(f"Lista de Vértices: {G2.nodes()}")
                         tamanho = len(lista) * 2
                         print("Tamanho do Grafo = ", tamanho)
                         ordem = len(sorted(set(lista2)))
@@ -503,7 +526,7 @@ def grafos():
                             print(
                                 f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
                         print('\nMatriz de adjacências de GRAFO')
-                        A = nx.adjacency_matrix(G)
+                        A = nx.adjacency_matrix(G2)
                         print(A.todense())
                         print("\n")
                         print(
@@ -532,9 +555,9 @@ def grafos():
                         vertices = sorted(set(lista2))
                         grauVertice(vertices, lista2, naoDirecionado)
 
-                        pos = nx.spring_layout(G)
+                        pos = nx.spring_layout(G2)
 
-                        nx.draw(G, pos, with_labels=True)
+                        nx.draw(G2, pos, with_labels=True)
 
                         plt.show()
 
