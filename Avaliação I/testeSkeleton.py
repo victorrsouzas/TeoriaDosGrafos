@@ -79,7 +79,8 @@ def menu():
         if buffer.strip().isdigit():
             switchMenu(int(buffer))
         else:
-            print("Opção Inválida")
+            print("""Opção Inválida,
+            digite um numero entre as opções""")
 
 
     return
@@ -98,7 +99,8 @@ def switchMenu(x):
     elif(x==6):
         finalizar()
     else:
-        print("Opção Inválida\n")
+        print("""Opção Inválida,
+        digite um numero entre as opções""")
 
 def criarVertice():
     print("criando Vertice")
