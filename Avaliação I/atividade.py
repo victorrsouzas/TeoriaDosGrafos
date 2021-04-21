@@ -477,8 +477,10 @@ def visualizar_DadosGrafosValorados(op, buff):
         elif contador == 0:
             print("Não são adjacentes")
 
+        fig, ax = plt.subplots(figsize=(25,25))
         # Plot do Grafo Direcionado Valorado
         if op == 1 and buff == 1:
+            node_size = [2500 for node in G.nodes]
             pos = nx.spring_layout(G)
             labels = nx.get_edge_attributes(G, 'weight')
 
@@ -491,7 +493,7 @@ def visualizar_DadosGrafosValorados(op, buff):
                 'arrowsize': 12,
             }
             nx.draw_networkx(G, pos, arrows=True,
-                             with_labels=True, **options)
+                             with_labels=True, node_size=node_size, **options)
 
             plt.show()
 
