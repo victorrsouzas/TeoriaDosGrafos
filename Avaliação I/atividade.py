@@ -127,13 +127,13 @@ def opcoes(peso, buffer):
             return opcoes(peso, buffer)
         # VISUALIZAR GRAFO E OS DADOS
         elif opcao == 2:
-            _(lista, peso, buffer)
+            gerar_Grafo_Lista(lista, peso, buffer)
             vertices = sorted(set(lista2))
             imprimir_GrauVertice(vertices, lista2, peso, buffer)
             if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
-                _(peso, buffer)
+                visualizar_DadosGrafosValorados(peso, buffer)
             if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
-                _(peso, buffer)
+                visualizar_DadosGrafosNaoValorados(peso, buffer)
             return opcoes(peso, buffer)
 
         # SAIR
