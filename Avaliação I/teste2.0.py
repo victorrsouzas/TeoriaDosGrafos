@@ -33,9 +33,8 @@ def menuTipo():
 def menuOpcoes():
     print("""
     (1) Incluir Vertice
-    (2) Deletar Vertice
-    (3) Visualizar o grafo e os dados
-    (4) Sair
+    (2) Visualizar o grafo e os dados
+    (3) Sair
         """)
     global opcao
     opcao = int(input("Opção: "))
@@ -323,26 +322,6 @@ def incluirVerticeNaoValorado(op, buff):
         print(f"Erro no tipo da entrada {ValueError}")
 
 
-def removerVertice():
-    global contaAresta
-    try:
-        while e == 1:
-            print("Deseja remover qual vertice: ")
-            r = input()
-            G.remove_node(r)
-            contaAresta -= 1
-
-            print("Você deseja continuar? S/N")
-            x = input().upper()
-            if x == "S":
-                continue
-            if x == "N":
-                break
-
-    except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
-
-
 def visualizarDadosGrafosValorados(op, buff):
     try:
         print(f"\nLista de Vértices: {G.nodes()}")
@@ -506,12 +485,8 @@ def opcoes(peso, buffer):
             if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
                 incluirVerticeNaoValorado(peso, buffer)
             return opcoes(peso, buffer)
-        # REMOVER VERTICE
-        elif opcao == 2:
-            removerVertice()
-            return opcoes(peso, buffer)
         # VISUALIZAR GRAFO E OS DADOS
-        elif opcao == 3:
+        elif opcao == 2:
             imprimirGrafo(lista, peso, buffer)
             vertices = sorted(set(lista2))
             grauVertice(vertices, lista2, peso, buffer)
@@ -522,7 +497,7 @@ def opcoes(peso, buffer):
             return opcoes(peso, buffer)
 
         # SAIR
-        elif opcao == 4:
+        elif opcao == 3:
             G.clear()
             G2.clear()
             lista.clear()
