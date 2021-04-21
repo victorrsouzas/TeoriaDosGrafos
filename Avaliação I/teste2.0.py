@@ -11,8 +11,32 @@ contaAresta = 0
 lista = []
 lista2 = []
 
+def menu_Grafos():
+    print("""
+    -----------------------------
+             Teoria Grafos
+    -----------------------------
+    """)
+    time.sleep(1)
+    while d == 1:
+        print("""
+    -----------------------------
+      SISTEMA GRAFOS
+    -----------------------------
+        VOCÊ DESEJA INICIAR UM GRAFO?
+        - SIM
+        - NÃO
+    -----------------------------""")
+        a = input("\nOpção: ").upper()
+        print("\n")
+        if a == "SIM":
+            grafos()
+        elif a == "NÃO" or a == "NAO":
+            break
+        else:
+            print("\nRESPONDA APENAS SIM OU NÃO")
 
-def menuTipoGrafo():
+def menu_Tipo_Grafo():
     print("    ------ADICIONAR GRAFO------")
     print("""
     Escolha a opção do grafo:
@@ -21,26 +45,226 @@ def menuTipoGrafo():
     (3) Sair
     """)
 
-
-def menuTipo():
+def menu_Tipo():
     print("""
     (1) Valorado
     (2) Não Valorado
     (3) Sair
         """)
 
+def grafos():
 
-def menuOpcoes():
-    print("""
-    (1) Incluir Vertice
-    (2) Visualizar o grafo e os dados
-    (3) Sair
-        """)
+    while d == 1:
+        menu_Tipo_Grafo()
+        try:
+            buffer = int(input("Opção: "))
+            # FOR DIRECIONADO
+            if buffer == 1:
+                menu_Tipo()
+                peso = int(input("O seu grafo direcionado vai ser:"))
+                # FOR DIRECIONADO E VALORADO
+                if peso == 1:
+                    opcoes(peso, buffer)
+
+                # FOR DIRECIONADO E NÃO VALORADO
+                elif peso == 2:
+                    opcoes(peso, buffer)
+
+                # SAIR DA OPÇÃO DIRECIONADO: VALORADO OU NÃO VALORADO
+                elif peso == 3:
+                    grafos()
+
+            # FOR NÃO DIRECIONADO
+            elif buffer == 2:
+                menu_Tipo()
+                peso = int(
+                    input("O seu grafo não direcionado vai ser: "))
+                # FOR NÃO DIRECIONADO E VALORADO
+                if peso == 1:
+                    opcoes(peso, buffer)
+
+                # FOR NÃO DIRECIONADO E NÃO VALORADO
+                elif peso == 2:
+                    opcoes(peso, buffer)
+                # SAIR
+                elif peso == 3:
+                    grafos()
+            elif buffer == 3:
+                break
+        except ValueError:
+            print(f"Erro no tipo da entrada {ValueError}")
+
+        break
+
+def menu_Opcoes(peso, buffer):
     global opcao
-    opcao = int(input("Opção: "))
+    if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2): 
+        print("""
+        (1) Incluir Vertices e Arestas
+        (2) Visualizar o grafo e os dados
+        (3) Sair
+            """)
+        opcao = int(input("Opção: "))
+    if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
+        print("""
+        (1) Incluir Vertices
+        (2) Visualizar o grafo e os dados
+        (3) Sair
+            """)
+        opcao = int(input("Opção: "))
 
+def opcoes(peso, buffer):
+    global opcao
+    global contaAresta
+    menu_Opcoes(peso, buffer)
+    try:
+        # INCLUIR VERTICE
+        if opcao == 1:
+            if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
+                incluir_Vertice_ArestaValorado(peso, buffer)
+            if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
+                incluir_Vertice_ArestaNValorado(peso, buffer)
+            return opcoes(peso, buffer)
+        # VISUALIZAR GRAFO E OS DADOS
+        elif opcao == 2:
+            _(lista, peso, buffer)
+            vertices = sorted(set(lista2))
+            imprimir_GrauVertice(vertices, lista2, peso, buffer)
+            if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
+                _(peso, buffer)
+            if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
+                _(peso, buffer)
+            return opcoes(peso, buffer)
 
-def imprimirGrafo(grafo, modo, tipo):
+        # SAIR
+        elif opcao == 3:
+            G.clear()
+            G2.clear()
+            lista.clear()
+            lista2.clear()
+            contaAresta = 0
+            return grafos()
+
+    except ValueError:
+        print(f"Erro no tipo da entrada {ValueError}")
+
+def incluir_Vertice_ArestaValorado(op, buff):
+    global contaAresta
+    global verticeInput1
+    global verticeInput2
+    global valor
+    try:
+        while e == 1:
+
+            if op == 1 and buff == 1:
+                print("Digite o vertice de saida: ")
+                verticeInput1 = input()
+                print("Digite o vertice de chegada: ")
+                verticeInput2 = input()
+            if op == 1 and buff == 2:
+                print("Digite o vertice: ")
+                verticeInput1 = input()
+                print("Digite o vertice: ")
+                verticeInput2 = input()
+            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                lista.append(verticeInput1)
+                lista2.append(verticeInput1)
+                lista.append(verticeInput2)
+                lista2.append(verticeInput2)
+                if verticeInput2 != "":
+                    print(
+                        "Digite o peso da aresta: ")
+                    valor = int(input())
+                    lista.append(valor)
+                    contaAresta += 1
+                    G.add_node(verticeInput1)
+                    G2.add_node(verticeInput1)
+                else:
+                    valor = 0
+                    lista.append(valor)
+                    contaAresta += 1
+                    G.add_node(verticeInput1)
+                    G2.add_node(verticeInput1)
+                if verticeInput2 != "":
+                    G.add_node(verticeInput2)
+                    G2.add_node(verticeInput2)
+                    if op == 1 and buff == 1:
+                        G.add_edge(verticeInput1, verticeInput2, weight=valor)
+                        G2.add_edge(verticeInput1, verticeInput2)
+                    if op == 1 and buff == 2:
+                        G.add_edge(verticeInput1, verticeInput2)
+                        G2.add_edge(verticeInput1, verticeInput2, weight=valor)
+
+            else:
+                print("Operação não válida, tente novamente")
+
+            print("\nVocê deseja continuar adicionando vértices? S/N")
+            x = input().upper()
+            if x == "S":
+                continue
+            if x == "N":
+                break
+
+    except ValueError:
+        print(f"Erro no tipo da entrada {ValueError}")
+
+def incluir_Vertice_ArestaNValorado(op, buff):
+    global contaAresta
+    global verticeInput1
+    global verticeInput2
+    try:
+        while e == 1:
+            if op == 2 and buff == 1:
+                print("Digite o vertice de saida: ")
+                verticeInput1 = input()
+                print("Digite o vertice de entrada: ")
+
+            if op == 2 and buff == 2:
+                print("Digite o vertice: ")
+                verticeInput1 = input()
+                print("Digite o vertice: ")
+            verticeInput2 = input()
+            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
+                lista.append(verticeInput1)
+                lista2.append(verticeInput1)
+                lista.append(verticeInput2)
+                lista2.append(verticeInput2)
+                contaAresta += 1
+                if op == 2 and buff == 1:
+                    if verticeInput2 != "":
+                        G.add_node(verticeInput1)
+
+                    else:
+                        G.add_node(verticeInput1)
+
+                    if verticeInput2 != "":
+                        G.add_node(verticeInput2)
+
+                        G.add_edge(verticeInput1,
+                                   verticeInput2)
+                if op == 2 and buff == 2:
+                    if verticeInput2 != "":
+                        G2.add_node(verticeInput1)
+
+                    else:
+                        G2.add_node(verticeInput1)
+
+                    if verticeInput2 != "":
+                        G2.add_node(verticeInput2)
+
+                        G2.add_edge(verticeInput1,
+                                    verticeInput2)
+
+            print("\nVocê deseja continuar adicionando vértices? S/N")
+            x = input().upper()
+            if x == "S":
+                continue
+            if x == "N":
+                break
+    except ValueError:
+        print(f"Erro no tipo da entrada {ValueError}")
+
+def gerar_Grafo_Lista(grafo, modo, tipo):
 
     # Direcionado e Valorado
     if modo == 1 and tipo == 1:
@@ -172,8 +396,7 @@ def imprimirGrafo(grafo, modo, tipo):
                 """)
                 j += 2
 
-
-def grauVertice(vertices, grafo, modo, tipo):
+def imprimir_GrauVertice(vertices, grafo, modo, tipo):
 
     # Direcionado
     if (modo == 1 or modo == 2) and tipo == 1:
@@ -203,126 +426,7 @@ def grauVertice(vertices, grafo, modo, tipo):
             if vertices[j] != "":
                 print("Grau do vértice ", vertices[j], " = ", grau)
 
-
-def incluirVerticeValorado(op, buff):
-    global contaAresta
-    global verticeInput1
-    global verticeInput2
-    global valor
-    try:
-        while e == 1:
-
-            if op == 1 and buff == 1:
-                print("Digite o vertice de saida: ")
-                verticeInput1 = input()
-                print("Digite o vertice de chegada: ")
-                verticeInput2 = input()
-            if op == 1 and buff == 2:
-                print("Digite o vertice: ")
-                verticeInput1 = input()
-                print("Digite o vertice: ")
-                verticeInput2 = input()
-            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
-                lista.append(verticeInput1)
-                lista2.append(verticeInput1)
-                lista.append(verticeInput2)
-                lista2.append(verticeInput2)
-                if verticeInput2 != "":
-                    print(
-                        "Digite o peso da aresta: ")
-                    valor = int(input())
-                    lista.append(valor)
-                    contaAresta += 1
-                    G.add_node(verticeInput1)
-                    G2.add_node(verticeInput1)
-                else:
-                    valor = 0
-                    lista.append(valor)
-                    contaAresta += 1
-                    G.add_node(verticeInput1)
-                    G2.add_node(verticeInput1)
-                if verticeInput2 != "":
-                    G.add_node(verticeInput2)
-                    G2.add_node(verticeInput2)
-                    if op == 1 and buff == 1:
-                        G.add_edge(verticeInput1, verticeInput2, weight=valor)
-                        G2.add_edge(verticeInput1, verticeInput2)
-                    if op == 1 and buff == 2:
-                        G.add_edge(verticeInput1, verticeInput2)
-                        G2.add_edge(verticeInput1, verticeInput2, weight=valor)
-
-            else:
-                print("Operação não válida, tente novamente")
-
-            print("\nVocê deseja continuar? S/N")
-            x = input().upper()
-            if x == "S":
-                continue
-            if x == "N":
-                break
-
-    except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
-
-
-def incluirVerticeNaoValorado(op, buff):
-    global contaAresta
-    global verticeInput1
-    global verticeInput2
-    try:
-        while e == 1:
-            if op == 2 and buff == 1:
-                print("Digite o vertice de saida: ")
-                verticeInput1 = input()
-                print("Digite o vertice de entrada: ")
-
-            if op == 2 and buff == 2:
-                print("Digite o vertice: ")
-                verticeInput1 = input()
-                print("Digite o vertice: ")
-            verticeInput2 = input()
-            if ((verticeInput1 != verticeInput2) and (verticeInput2 != None) and (verticeInput1 != None)):
-                lista.append(verticeInput1)
-                lista2.append(verticeInput1)
-                lista.append(verticeInput2)
-                lista2.append(verticeInput2)
-                contaAresta += 1
-                if op == 2 and buff == 1:
-                    if verticeInput2 != "":
-                        G.add_node(verticeInput1)
-
-                    else:
-                        G.add_node(verticeInput1)
-
-                    if verticeInput2 != "":
-                        G.add_node(verticeInput2)
-
-                        G.add_edge(verticeInput1,
-                                   verticeInput2)
-                if op == 2 and buff == 2:
-                    if verticeInput2 != "":
-                        G2.add_node(verticeInput1)
-
-                    else:
-                        G2.add_node(verticeInput1)
-
-                    if verticeInput2 != "":
-                        G2.add_node(verticeInput2)
-
-                        G2.add_edge(verticeInput1,
-                                    verticeInput2)
-
-            print("\nVocê deseja continuar? S/N")
-            x = input().upper()
-            if x == "S":
-                continue
-            if x == "N":
-                break
-    except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
-
-
-def visualizarDadosGrafosValorados(op, buff):
+def visualizar_DadosGrafosValorados(op, buff):
     try:
         print(f"\nLista de Vértices: {G.nodes()}")
 
@@ -355,7 +459,7 @@ def visualizarDadosGrafosValorados(op, buff):
 
         # Questão 9: Verificar se os vertices são adjacentes
         print(
-            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
+            "Escolha dois vértices para saber se eles são adjacentes")
         print("Vértice 1: ")
         u = input()
         print("Vértice 2: ")
@@ -404,8 +508,7 @@ def visualizarDadosGrafosValorados(op, buff):
     except IndexError:
         print(f"Erro no tipo da entrada {IndexError}")
 
-
-def visualizarDadosGrafosNaoValorados(op, buff):
+def visualizar_DadosGrafosNaoValorados(op, buff):
     try:
         print(f"\nLista de Vértices: {G.nodes()}")
 
@@ -473,111 +576,4 @@ def visualizarDadosGrafosNaoValorados(op, buff):
         print(f"Erro no tipo da entrada {ValueError}")
 
 
-def opcoes(peso, buffer):
-    global opcao
-    global contaAresta
-    menuOpcoes()
-    try:
-        # INCLUIR VERTICE
-        if opcao == 1:
-            if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
-                incluirVerticeValorado(peso, buffer)
-            if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
-                incluirVerticeNaoValorado(peso, buffer)
-            return opcoes(peso, buffer)
-        # VISUALIZAR GRAFO E OS DADOS
-        elif opcao == 2:
-            imprimirGrafo(lista, peso, buffer)
-            vertices = sorted(set(lista2))
-            grauVertice(vertices, lista2, peso, buffer)
-            if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
-                visualizarDadosGrafosValorados(peso, buffer)
-            if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
-                visualizarDadosGrafosNaoValorados(peso, buffer)
-            return opcoes(peso, buffer)
-
-        # SAIR
-        elif opcao == 3:
-            G.clear()
-            G2.clear()
-            lista.clear()
-            lista2.clear()
-            contaAresta = 0
-            return grafos()
-
-    except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
-
-
-def grafos():
-
-    while d == 1:
-        menuTipoGrafo()
-        try:
-            buffer = int(input("Opção: "))
-            # FOR DIRECIONADO
-            if buffer == 1:
-                menuTipo()
-                peso = int(input("O seu grafo direcionado vai ser:"))
-                # FOR DIRECIONADO E VALORADO
-                if peso == 1:
-                    opcoes(peso, buffer)
-
-                # FOR DIRECIONADO E NÃO VALORADO
-                elif peso == 2:
-                    opcoes(peso, buffer)
-
-                # SAIR DA OPÇÃO DIRECIONADO: VALORADO OU NÃO VALORADO
-                elif peso == 3:
-                    grafos()
-
-            # FOR NÃO DIRECIONADO
-            elif buffer == 2:
-                menuTipo()
-                peso = int(
-                    input("O seu grafo não direcionado vai ser: "))
-                # FOR NÃO DIRECIONADO E VALORADO
-                if peso == 1:
-                    opcoes(peso, buffer)
-
-                # FOR NÃO DIRECIONADO E NÃO VALORADO
-                elif peso == 2:
-                    opcoes(peso, buffer)
-                # SAIR
-                elif peso == 3:
-                    grafos()
-            elif buffer == 3:
-                break
-        except ValueError:
-            print(f"Erro no tipo da entrada {ValueError}")
-
-        break
-
-
-def menuGrafos():
-    print("""
-    -----------------------------
-             Teoria Grafos
-    -----------------------------
-    """)
-    time.sleep(1)
-    while d == 1:
-        print("""
-    -----------------------------
-      SISTEMA GRAFOS
-    -----------------------------
-        VOCÊ DESEJA INICIAR UM GRAFO?
-        - SIM
-        - NÃO
-    -----------------------------""")
-        a = input("\nOpção: ").upper()
-        print("\n")
-        if a == "SIM":
-            grafos()
-        elif a == "NÃO" or a == "NAO":
-            break
-        else:
-            print("\nRESPONDA APENAS SIM OU NÃO")
-
-
-menuGrafos()
+menu_Grafos()
