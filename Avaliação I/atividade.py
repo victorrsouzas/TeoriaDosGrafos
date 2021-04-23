@@ -512,8 +512,11 @@ def visualizar_DadosGrafosValorados(op, buff):
 
 def visualizar_DadosGrafosNaoValorados(op, buff):
     try:
-        print(f"\nLista de Vértices: {G.nodes()}")
-
+        if op == 2 and buff == 1:
+            print(f"\nLista de Vértices: {G.nodes()}")
+        if op == 2 and buff == 2:
+            print(f"\nLista de Vértices: {G2.nodes()}")
+    
         print(f"Quantidade de Arestas: {contaAresta}")
 
         tamanho = len(lista)/2
