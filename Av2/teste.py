@@ -1,6 +1,7 @@
 import time
 import networkx as nx
 import matplotlib.pyplot as plt
+import sys
 
 buffer = 0
 d = 1
@@ -30,10 +31,9 @@ def menu_Grafos():
         if a == "SIM":
             grafos()
         elif a == "NÃO" or a == "NAO":
-            break
+            sys.exit()
         else:
             print("\nRESPONDA APENAS SIM OU NÃO")
-
 
 def menu_Tipo_Grafo():
     print("""    
@@ -48,7 +48,6 @@ def menu_Tipo_Grafo():
     (3) Sair
     """)
 
-
 def menu_Tipo():
     print("""    
     -----------------------------
@@ -61,6 +60,50 @@ def menu_Tipo():
     (3) Sair
         """)
 
+def menu_Visualização(peso, buffer):
+    global opcao
+    if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
+        print("""    
+    -----------------------------
+            VISUALIZAÇÃO
+    -----------------------------
+    """)
+        print("""
+    (1) Lista de arestas
+    (2) Lista de graus
+    (3) Lista de vertices
+    (4) Tamanho do grafo
+    (5) Matriz de adjacências
+    (6) Verificar vertices adjacentes
+    (7) Plot do Grafo
+    (8) Algoritmo de dijkstra
+    (9) Algoritmo de Bellman-Ford
+    (10) Sair
+    """)
+        opcao = int(input("    Opção: "))
+        print("\n")
+
+    if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
+        print("""    
+    -----------------------------
+            VISUALIZAÇÃO
+    -----------------------------
+    """)
+        print("""
+    (1) Lista de arestas
+    (2) Lista de graus
+    (3) Lista de vertices
+    (4) Tamanho do grafo
+    (5) Matriz de adjacências
+    (6) Verificar vertices adjacentes
+    (7) Plot do Grafo
+    (8) Algoritmo de dijkstra
+    (9) Algoritmo de Bellman-Ford
+    (10) Todos
+    (11) Sair
+    """)
+        opcao = int(input("    Opção: "))
+        print("\n")
 
 def grafos():
 
@@ -82,7 +125,7 @@ def grafos():
 
                 # SAIR DA OPÇÃO DIRECIONADO: VALORADO OU NÃO VALORADO
                 elif peso == 3:
-                    grafos()
+                    menu_Grafos()()
 
             # FOR NÃO DIRECIONADO
             elif buffer == 2:
@@ -98,32 +141,44 @@ def grafos():
                     opcoes(peso, buffer)
                 # SAIR
                 elif peso == 3:
-                    grafos()
+                    menu_Grafos()
             elif buffer == 3:
-                break
+                menu_Grafos()
         except ValueError:
             print(f"    Erro no tipo da entrada {ValueError}")
 
         break
 
-
 def menu_Opcoes(peso, buffer):
     global opcao
     if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
+        print("""    
+    -----------------------------
+            OPÇÕES
+    -----------------------------
+    """)
         print("""
     (1) Incluir Vertices e Arestas
-    (2) Visualizar o grafo e os dados
-    (3) Sair
+    (2) Remover Vertices
+    (3) Visualizar o grafo e os dados
+    (4) Sair
             """)
         opcao = int(input("    Opção: "))
+        print("\n")
     if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
+        print("""    
+    -----------------------------
+            OPÇÕES
+    -----------------------------
+    """)
         print("""
     (1) Incluir Vertices
-    (2) Visualizar o grafo e os dados
-    (3) Sair
+    (2) Remover Vertices
+    (3) Visualizar o grafo e os dados
+    (4) Sair
             """)
         opcao = int(input("    Opção: "))
-
+        print("\n")
 
 def opcoes(peso, buffer):
     global opcao
@@ -137,28 +192,187 @@ def opcoes(peso, buffer):
             if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
                 incluir_Vertice_ArestaNValorado(peso, buffer)
             return opcoes(peso, buffer)
-        # VISUALIZAR GRAFO E OS DADOS
+        # REMOVER VERTICE
         elif opcao == 2:
-            gerar_Grafo_Lista(peso, buffer)
-            imprimir_GrauVertice(peso, buffer)
-            if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
-                visualizar_DadosGrafosValorados(peso, buffer)
-            if (peso == 2 and buffer == 1) or (peso == 2 and buffer == 2):
-                visualizar_DadosGrafosNaoValorados(peso, buffer)
+            removerVertice()
+            return opcoes(peso, buffer)
+        # VISUALIZAR GRAFO E OS DADOS
+        elif opcao == 3:
+            opcoes_Visualização(peso, buffer)
             return opcoes(peso, buffer)
 
         # SAIR
-        elif opcao == 3:
+        elif opcao == 4:
             G.clear()
             G2.clear()
-            lista.clear()
-            lista2.clear()
             contaAresta = 0
             return grafos()
 
     except ValueError:
         print(f"Erro no tipo da entrada {ValueError}")
 
+def opcoes_Visualização(peso, buffer):
+    global opcao
+    menu_Visualização(peso, buffer)
+    if opcao == 1:
+        gerar_Grafo_Lista(peso, buffer)
+        return opcoes_Visualização(peso, buffer)
+    elif opcao == 2:
+        imprimir_GrauVertice(peso,buffer)
+        return opcoes_Visualização(peso,buffer)
+    elif opcao == 3:
+        print("""    
+        -----------------------------
+                LISTA DE VERTICES
+        -----------------------------
+        """)
+        if (peso == 1 and buffer == 1) or (peso == 1 and buffer == 2):
+            print(f"    Lista de Vértices: {G.nodes()}")
+        if peso == 2 and buffer == 1:
+            print(f"    Lista de Vértices: {G.nodes()}")
+        if peso == 2 and buffer == 2:
+            print(f"    Lista de Vértices: {G2.nodes()}")
+        print("---------------------------------------------------")
+        print("\n")
+        return opcoes_Visualização(peso, buffer)
+    elif opcao == 4:
+        print("""    
+        -----------------------------
+                TAMANHO DO GRAFO
+        -----------------------------
+        """)
+        print(f"    Tamanho do Grafo: {contaAresta}")
+        print("---------------------------------------------------")
+        print("\n")
+        return opcoes_Visualização(peso, buffer)
+    elif opcao == 5:
+        print("""    
+        -----------------------------
+                MATRIZ DE ADJACÊNCIA
+        -----------------------------
+        """)
+        if peso == 1 and buffer == 1:
+            A = nx.adjacency_matrix(G2)
+            print(A.todense())
+            print("\n")
+            return opcoes_Visualização(peso, buffer)
+        if peso == 1 and buffer == 2:
+            A = nx.adjacency_matrix(G)
+            print(A.todense())
+            print("\n")
+            return opcoes_Visualização(peso, buffer)
+        if peso == 2 and buffer == 1:
+            A = nx.adjacency_matrix(G)
+            print(A.todense())
+            print("\n")
+            return opcoes_Visualização(peso, buffer)
+        if peso == 2 and buffer == 2:
+            A = nx.adjacency_matrix(G2)
+            print(A.todense())
+            print("\n")
+            return opcoes_Visualização(peso, buffer)
+    elif opcao == 6:
+        print("""    
+        -----------------------------
+                VERTICES ADJACENTES
+        -----------------------------
+        """)
+        u = input("    Vértice 1: ")
+        v = input("    Vértice 2: ")
+        contador = 0
+
+        for edge in G.edges():
+            i = 0
+            if peso == 1 and buffer == 1:
+                if edge[i] == u:
+                    if edge[i + 1] == v:
+                        contador += 1
+            if peso == 1 and buffer == 2:
+                if edge[i] == u:
+                    if edge[i + 1] == v:
+                        contador -= 1
+            i += 1
+
+        if contador == 1:
+            print("    São adjacentes")
+            print("\n")
+            return opcoes_Visualização(peso, buffer)
+        elif contador <= 0:
+            print("    Não são adjacentes")
+            print("\n")
+            return opcoes_Visualização(peso, buffer)
+        
+    elif opcao == 7:
+        print("""    
+        -----------------------------
+                PLOT DO GRAFO
+        -----------------------------
+        """)
+        fig, ax = plt.subplots(figsize=(25, 25))
+        # Plot do Grafo Direcionado Valorado
+        if peso == 1 and buffer == 1:
+            node_size = [2500 for node in G.nodes]
+            pos = nx.spring_layout(G)
+            labels = nx.get_edge_attributes(G, 'weight')
+
+            nx.draw_networkx_edge_labels(
+                G, pos, edge_labels=labels)
+
+            options = {
+                'width': 1.0,
+                'arrowstyle': '-|>',
+                'arrowsize': 12,
+            }
+            nx.draw_networkx(G, pos, arrows=True,
+                             with_labels=True, node_size=node_size, **options)
+
+            plt.show()
+            return opcoes_Visualização(peso, buffer)
+
+        # Plot do Grafo Não Direcionado Valorado
+        elif peso == 1 and buffer == 2:
+            pos = nx.spring_layout(G2)
+            labels = nx.get_edge_attributes(G2, 'weight')
+
+            nx.draw_networkx_edge_labels(G2, pos, edge_labels=labels)
+            nx.draw(G2, pos, with_labels=True)
+
+            plt.show()
+            return opcoes_Visualização(peso, buffer)
+        # Plot do grafo
+        # Direcionado e Não Valorado
+        elif peso == 2 and buffer == 1:
+            pos = nx.spring_layout(G)
+
+            nx.draw(G, pos, with_labels=True)
+
+            plt.show()
+            return opcoes_Visualização(peso, buffer)
+        # Não direcionado e Não Valorado
+        elif peso == 2 and buffer == 2:
+            pos = nx.spring_layout(G2)
+
+            nx.draw(G2, pos, with_labels=True)
+
+            plt.show()
+            return opcoes_Visualização(peso, buffer)
+    
+    elif opcao == 8:
+        print("""    
+        -----------------------------
+                ALGORITMO DE DIJKSTRA
+        -----------------------------
+        """)
+        if (peso == 1 and buffer == 1):
+            dijkstra_all(G)
+            plotGraph(G)
+            return opcoes_Visualização(peso, buffer)
+        else:
+            print("    O algoritmo é exclusivo para a opção de direcionado e valorado")
+            return opcoes_Visualização(peso, buffer)
+
+    elif opcao == 10:
+        return opcoes(peso, buffer)
 
 def incluir_Vertice_ArestaValorado(op, buff):
     global contaAresta
@@ -196,18 +410,16 @@ def incluir_Vertice_ArestaValorado(op, buff):
                         G2.add_edge(verticeInput1, verticeInput2, weight=valor)
 
             else:
-                print("Operação não válida, tente novamente")
+                print("    Operação não válida, tente novamente")
 
-            x = input(
-                "\n    Você deseja continuar adicionando vértices[S/N]? ").upper()
+            x = input("\n    Você deseja continuar adicionando vértices[S/N]? ").upper()
             if x == "S":
                 continue
             if x == "N":
                 break
 
     except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
-
+        print(f"    Erro no tipo da entrada {ValueError}")
 
 def incluir_Vertice_ArestaNValorado(op, buff):
     global contaAresta
@@ -254,15 +466,17 @@ def incluir_Vertice_ArestaNValorado(op, buff):
             if x == "N":
                 break
     except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
-
+        print(f"    Erro no tipo da entrada {ValueError}")
 
 def gerar_Grafo_Lista(modo, tipo):
 
     # Direcionado e Valorado
     if modo == 1 and tipo == 1:
-        print("---------------------------------------------------")
-        print("\t\t\tLista de Arestas")
+        print("""    
+        -----------------------------
+                LISTA DE ARESTAS
+        -----------------------------
+        """)
         i = 1
         for edge in G.edges():
             u = edge[0]
@@ -275,8 +489,11 @@ def gerar_Grafo_Lista(modo, tipo):
 
     # Direcionado e Não Valorado
     elif modo == 2 and tipo == 1:
-        print("---------------------------------------------------")
-        print("\t\t\tPares de vertices")
+        print("""    
+        -----------------------------
+                PARES DE VERTICES
+        -----------------------------
+        """)
         i = 1
         for edge in G.edges():
             u = edge[0]
@@ -288,22 +505,28 @@ def gerar_Grafo_Lista(modo, tipo):
 
     # Não Direcionado e Valorado
     elif modo == 1 and tipo == 2:
-        print("---------------------------------------------------")
-        print("\t\t\tLista de Arestas")
+        print("""    
+        -----------------------------
+                LISTA DE ARESTAS
+        -----------------------------
+        """)
         i = 1
-        for edge in G.edges():
+        for edge in G2.edges():
             u = edge[0]
             v = edge[1]
             print(
-                f"\n    Par {i}: O peso da aresta: {edge}, vale: {G[u][v]['weight']}")
+                f"\n    Par {i}: O peso da aresta: {edge}, vale: {G2[u][v]['weight']}")
             i += 1
         print("---------------------------------------------------")
         print("\n")
 
     # Não Direcionado e Não valorado
     elif modo == 2 and tipo == 2:
-        print("---------------------------------------------------")
-        print("\t\t\tPares de vertices")
+        print("""    
+        -----------------------------
+                PARES DE VERTICES
+        -----------------------------
+        """)
         i = 1
         for edge in G.edges():
             u = edge[0]
@@ -313,157 +536,105 @@ def gerar_Grafo_Lista(modo, tipo):
         print("---------------------------------------------------")
         print("\n")
 
-
 def imprimir_GrauVertice(modo, tipo):
 
     # Direcionado
     if (modo == 1 or modo == 2) and tipo == 1:
-        print('Lista de Graus de Grafos Valorados')
-        print(G.degree)
+        print("""    
+        -----------------------------
+                LISTA DE GRAUS
+        -----------------------------
+        """)
+        print(f"    {G.degree}")
+
+        print("---------------------------------------------------")
+        print("\n")
 
     # Não Direcionado
     elif (modo == 1 or modo == 2) and tipo == 2:
-        print('Lista de Graus de Grafos Não Valorados')
-        print(G.degree)
+        print("""    
+        -----------------------------
+                LISTA DE GRAUS
+        -----------------------------
+        """)
+        print(f"    {G.degree}")
 
-
-def visualizar_DadosGrafosValorados(op, buff):
-    try:
-        print(f"\nLista de Vértices: {G.nodes()}")
-
-        print(f"Tamanho do Grafo: {contaAresta}")
-
-        # Imprimir Matriz de adjacências
-        # Direcionado
-        if op == 1 and buff == 1:
-            print('\nMatriz de adjacências de GRAFO')
-            A = nx.adjacency_matrix(G2)
-            print(A.todense())
-            print("\n")
-        # Não Direcionado
-        if op == 1 and buff == 2:
-            print('\nMatriz de adjacências de GRAFO')
-            A = nx.adjacency_matrix(G)
-            print(A.todense())
-            print("\n")
-
-        # Questão 9: Verificar se os vertices são adjacentes
-        print(
-            "Escolha dois vértices para saber se eles são adjacentes")
-        print("Vértice 1: ")
-        u = input()
-        print("Vértice 2: ")
-        v = input()
-        contador = 0
-
-        for j in range(0, len(lista2), 2):
-            if lista2[j] == u:
-                if lista2[j+1] == v:
-                    contador += 1
-            j += 2
-
-        if contador == 1:
-            print("São adjacentes")
-        elif contador == 0:
-            print("Não são adjacentes")
-
-        fig, ax = plt.subplots(figsize=(25, 25))
-        # Plot do Grafo Direcionado Valorado
-        if op == 1 and buff == 1:
-            node_size = [2500 for node in G.nodes]
-            pos = nx.spring_layout(G)
-            labels = nx.get_edge_attributes(G, 'weight')
-
-            nx.draw_networkx_edge_labels(
-                G, pos, edge_labels=labels)
-
-            options = {
-                'width': 1.0,
-                'arrowstyle': '-|>',
-                'arrowsize': 12,
-            }
-            nx.draw_networkx(G, pos, arrows=True,
-                             with_labels=True, node_size=node_size, **options)
-
-            plt.show()
-
-        # Plot do Grafo Não Direcionado Valorado
-        elif op == 1 and buff == 2:
-            pos = nx.spring_layout(G2)
-            labels = nx.get_edge_attributes(G2, 'weight')
-
-            nx.draw_networkx_edge_labels(G2, pos, edge_labels=labels)
-            nx.draw(G2, pos, with_labels=True)
-
-            plt.show()
-
-    except IndexError:
-        print(f"Erro no tipo da entrada {IndexError}")
-
-
-def visualizar_DadosGrafosNaoValorados(op, buff):
-    try:
-        if op == 2 and buff == 1:
-            print(f"\nLista de Vértices: {G.nodes()}")
-        if op == 2 and buff == 2:
-            print(f"\nLista de Vértices: {G2.nodes()}")
-
-        print(f"Tamanho do Grafo: {contaAresta}")
-
-        print("\nLista de Adjacências:")
-        for j in range(0, len(lista2), 2):
-            print(
-                f"Vértice destino: {lista2[j]}, Destinos: {lista2[j+1]}")
-
-        if op == 2 and buff == 1:
-            print('\nMatriz de adjacências de GRAFO')
-            A = nx.adjacency_matrix(G)
-            print(A.todense())
-            print("\n")
-        if op == 2 and buff == 2:
-            print('\nMatriz de adjacências de GRAFO')
-            A = nx.adjacency_matrix(G2)
-            print(A.todense())
-            print("\n")
-
-        print(
-            "Dado um par de vértices, retorne se os dois vértices são adjacentes ou não")
-        print("Vértice 1: ")
-        u = input()
-        print("Vértice 2: ")
-        v = input()
-        contador = 0
-
-        for j in range(0, len(lista2), 2):
-            if lista2[j] == u:
-                if lista2[j+1] == v:
-                    contador += 1
-            j += 2
-
-        if contador == 1:
-            print("São adjacentes")
-        elif contador == 0:
-            print("Não são adjacentes")
+        print("---------------------------------------------------")
         print("\n")
 
-        # Plot do grafo
-        # Direcionado
-        if op == 2 and buff == 1:
-            pos = nx.spring_layout(G)
+def removerVertice():
+    global contaAresta
+    try:
+        while e == 1:
+            print(f"\n    Lista de Vértices: {G.nodes()}")
+            print("    Deseja remover qual vertice: ")
+            r = input()
+            if r in G.nodes():
+                G.remove_node(r)
+                contaAresta -= 1
+            else:
+                print("    Vertice não se encontra no grafo")
 
-            nx.draw(G, pos, with_labels=True)
-
-            plt.show()
-        # Não direcionado
-        if op == 2 and buff == 2:
-            pos = nx.spring_layout(G2)
-
-            nx.draw(G2, pos, with_labels=True)
-
-            plt.show()
+            x = input("\n    Você deseja continuar adicionando vértices[S/N]? ").upper()
+            if x == "S":
+                continue
+            if x == "N":
+                break
 
     except ValueError:
-        print(f"Erro no tipo da entrada {ValueError}")
+        print(f"    Erro no tipo da entrada {ValueError}")
 
+
+def dijkstra_all(G):
+    for x in range(1,G.number_of_nodes()+1):
+        dijkstra_one_to_all(G,x)
+    return
+
+def plotGraph(G):
+    node_size = [2500 for node in G.nodes]
+    pos = nx.spring_layout(G)
+    labels = nx.get_edge_attributes(G, 'weight')
+
+    nx.draw_networkx_edge_labels(
+        G, pos, edge_labels=labels)
+
+    options = {
+        'width': 1.0,
+        'arrowstyle': '-|>',
+        'arrowsize': 12,
+    }
+    nx.draw_networkx(G, pos, arrows=True,
+                        with_labels=True, node_size=node_size, **options)
+
+    plt.show()
+    return
+
+def dijkstra_one_to_all(G,origem):
+
+    for x in range(1,G.number_of_nodes()+1):
+        if x!= origem:
+            try:
+                length = nx.shortest_path_length(G, source=origem, target=x, weight='weight')
+                print("Length of the shortest path from ",origem, " to ",x," : " , length)
+            except nx.exception.NetworkXNoPath:
+                print('No path from',origem,' to ',x)
+    path = nx.shortest_path(G, source=origem, weight='weight')
+    del path[origem]
+    print("All shortest paths from ",origem,": " ,path )
+    return
+
+def dijkstra_one_to_one(G,origem,destino):
+    if destino!= origem:
+        try:
+            length = nx.shortest_path_length(G, source=origem, target=destino, weight='weight')
+            print("Length of the shortest path from ",origem, " to ",destino," : " , length)
+            path = nx.shortest_path(G, source=origem, target=destino, weight='weight')
+            print("The shortest paths from ",origem,"to ",destino," : " ,path )
+        except nx.exception.NetworkXNoPath:
+            print('No path from',origem,' to ',destino)
+    else:
+        print("origem = destino")
+    return
+    
 
 menu_Grafos()
